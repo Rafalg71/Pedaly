@@ -77,6 +77,8 @@ void saveConfig() {
 }
 
 uint16_t processPedal(uint16_t raw, uint16_t min_v, uint16_t max_v) {
+    if (min_v == max_v) return 0; // Avoid divide by zero
+
     long val = raw;
     if (min_v < max_v) {
         val = constrain(val, min_v, max_v);

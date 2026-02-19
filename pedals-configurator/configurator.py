@@ -175,6 +175,18 @@ class ConfiguratorApp(ROOT_CLASS):
         self.send_command("GET_CONFIG")
 
     def save_config(self):
+        # Validate inputs
+        for p in self.pedal_vars:
+            try:
+                mn = int(p['min'].get())
+                mx = int(p['max'].get())
+                if mn == mx:
+                    messagebox.showerror("Validation Error", f"Pedal {p['name']} has Min equal to Max. This is not allowed.")
+                    return
+            except ValueError:
+                messagebox.showerror("Validation Error", f"Invalid number format for {p['name']}.")
+                return
+
         # Send SET commands for each pedal
         for p in self.pedal_vars:
             idx = p['idx']
