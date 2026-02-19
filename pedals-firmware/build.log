@@ -1,0 +1,588 @@
+Processing esp32-s3-devkitc-1 (platform: espressif32@6.5.0; board: esp32-s3-devkitc-1; framework: arduino)
+--------------------------------------------------------------------------------
+Platform Manager: Installing espressif32 @ 6.5.0
+Downloading 0% 10% 20% 30% 40% 50% 60% 70% 80% 90% 100%
+Unpacking 0% 10% 20% 30% 40% 50% 60% 70% 80% 90% 100%
+Platform Manager: espressif32@6.5.0 has been installed!
+Tool Manager: Installing platformio/framework-arduinoespressif32 @ ~3.20014.0
+Downloading 0% 10% 20% 30% 40% 50% 60% 70% 80% 90% 100%
+Unpacking 0% 10% 20% 30% 40% 50% 60% 70% 80% 90% 100%
+Tool Manager: framework-arduinoespressif32@3.20014.231204 has been installed!
+Tool Manager: Installing platformio/tool-esptoolpy @ ~1.40501.0
+Downloading 0% 10% 20% 30% 40% 50% 60% 70% 80% 90% 100%
+Unpacking 0% 10% 20% 30% 40% 50% 60% 70% 80% 90% 100%
+Tool Manager: tool-esptoolpy@1.40501.0 has been installed!
+Verbose mode can be enabled via `-v, --verbose` option
+CONFIGURATION: https://docs.platformio.org/page/boards/espressif32/esp32-s3-devkitc-1.html
+PLATFORM: Espressif 32 (6.5.0) > Espressif ESP32-S3-DevKitC-1-N8 (8 MB QD, No PSRAM)
+HARDWARE: ESP32S3 240MHz, 320KB RAM, 8MB Flash
+DEBUG: Current (esp-builtin) On-board (esp-builtin) External (cmsis-dap, esp-bridge, esp-prog, iot-bus-jtag, jlink, minimodule, olimex-arm-usb-ocd, olimex-arm-usb-ocd-h, olimex-arm-usb-tiny-h, olimex-jtag-tiny, tumpa)
+PACKAGES:
+ - framework-arduinoespressif32 @ 3.20014.231204 (2.0.14)
+ - tool-esptoolpy @ 1.40501.0 (4.5.1)
+ - toolchain-riscv32-esp @ 8.4.0+2021r2-patch5
+ - toolchain-xtensa-esp32s3 @ 8.4.0+2021r2-patch5
+LDF: Library Dependency Finder -> https://bit.ly/configure-pio-ldf
+LDF Modes: Finder ~ chain, Compatibility ~ soft
+Found 38 compatible libraries
+Scanning dependencies...
+Dependency Graph
+|-- Adafruit TinyUSB Library @ 3.7.4
+|-- Preferences @ 2.0.0
+Building in release mode
+Compiling .pio/build/esp32-s3-devkitc-1/src/main.cpp.o
+Building .pio/build/esp32-s3-devkitc-1/bootloader.bin
+Generating partitions .pio/build/esp32-s3-devkitc-1/partitions.bin
+<command-line>: warning: "ARDUINO_USB_MODE" redefined
+<command-line>: note: this is the location of the previous definition
+Compiling .pio/build/esp32-s3-devkitc-1/lib736/SPI/SPI.cpp.o
+esptool.py v4.5.1
+Creating esp32s3 image...
+Merged 1 ELF section
+Successfully created esp32s3 image.
+<command-line>: warning: "ARDUINO_USB_MODE" redefined
+<command-line>: note: this is the location of the previous definition
+Compiling .pio/build/esp32-s3-devkitc-1/lib9e2/SdFat - Adafruit Fork/ExFatLib/ExFatDbg.cpp.o
+Compiling .pio/build/esp32-s3-devkitc-1/lib9e2/SdFat - Adafruit Fork/ExFatLib/ExFatFile.cpp.o
+<command-line>: warning: "ARDUINO_USB_MODE" redefined
+<command-line>: warning: "ARDUINO_USB_MODE" redefined
+<command-line>: note: this is the location of the previous definition
+<command-line>: note: this is the location of the previous definition
+Archiving .pio/build/esp32-s3-devkitc-1/lib736/libSPI.a
+Compiling .pio/build/esp32-s3-devkitc-1/lib9e2/SdFat - Adafruit Fork/ExFatLib/ExFatFilePrint.cpp.o
+Indexing .pio/build/esp32-s3-devkitc-1/lib736/libSPI.a
+<command-line>: warning: "ARDUINO_USB_MODE" redefined
+<command-line>: note: this is the location of the previous definition
+Compiling .pio/build/esp32-s3-devkitc-1/lib9e2/SdFat - Adafruit Fork/ExFatLib/ExFatFileWrite.cpp.o
+<command-line>: warning: "ARDUINO_USB_MODE" redefined
+<command-line>: note: this is the location of the previous definition
+Compiling .pio/build/esp32-s3-devkitc-1/lib9e2/SdFat - Adafruit Fork/ExFatLib/ExFatFormatter.cpp.o
+<command-line>: warning: "ARDUINO_USB_MODE" redefined
+<command-line>: note: this is the location of the previous definition
+Compiling .pio/build/esp32-s3-devkitc-1/lib9e2/SdFat - Adafruit Fork/ExFatLib/ExFatName.cpp.o
+<command-line>: warning: "ARDUINO_USB_MODE" redefined
+<command-line>: note: this is the location of the previous definition
+Compiling .pio/build/esp32-s3-devkitc-1/lib9e2/SdFat - Adafruit Fork/ExFatLib/ExFatPartition.cpp.o
+<command-line>: warning: "ARDUINO_USB_MODE" redefined
+<command-line>: note: this is the location of the previous definition
+Compiling .pio/build/esp32-s3-devkitc-1/lib9e2/SdFat - Adafruit Fork/ExFatLib/ExFatVolume.cpp.o
+<command-line>: warning: "ARDUINO_USB_MODE" redefined
+<command-line>: note: this is the location of the previous definition
+Compiling .pio/build/esp32-s3-devkitc-1/lib9e2/SdFat - Adafruit Fork/FatLib/FatDbg.cpp.o
+<command-line>: warning: "ARDUINO_USB_MODE" redefined
+<command-line>: note: this is the location of the previous definition
+Compiling .pio/build/esp32-s3-devkitc-1/lib9e2/SdFat - Adafruit Fork/FatLib/FatFile.cpp.o
+<command-line>: warning: "ARDUINO_USB_MODE" redefined
+<command-line>: note: this is the location of the previous definition
+Compiling .pio/build/esp32-s3-devkitc-1/lib9e2/SdFat - Adafruit Fork/FatLib/FatFileLFN.cpp.o
+<command-line>: warning: "ARDUINO_USB_MODE" redefined
+<command-line>: note: this is the location of the previous definition
+Compiling .pio/build/esp32-s3-devkitc-1/lib9e2/SdFat - Adafruit Fork/FatLib/FatFilePrint.cpp.o
+<command-line>: warning: "ARDUINO_USB_MODE" redefined
+<command-line>: note: this is the location of the previous definition
+Compiling .pio/build/esp32-s3-devkitc-1/lib9e2/SdFat - Adafruit Fork/FatLib/FatFileSFN.cpp.o
+<command-line>: warning: "ARDUINO_USB_MODE" redefined
+<command-line>: note: this is the location of the previous definition
+Compiling .pio/build/esp32-s3-devkitc-1/lib9e2/SdFat - Adafruit Fork/FatLib/FatFormatter.cpp.o
+<command-line>: warning: "ARDUINO_USB_MODE" redefined
+<command-line>: note: this is the location of the previous definition
+Compiling .pio/build/esp32-s3-devkitc-1/lib9e2/SdFat - Adafruit Fork/FatLib/FatName.cpp.o
+<command-line>: warning: "ARDUINO_USB_MODE" redefined
+<command-line>: note: this is the location of the previous definition
+Compiling .pio/build/esp32-s3-devkitc-1/lib9e2/SdFat - Adafruit Fork/FatLib/FatPartition.cpp.o
+<command-line>: warning: "ARDUINO_USB_MODE" redefined
+<command-line>: note: this is the location of the previous definition
+Compiling .pio/build/esp32-s3-devkitc-1/lib9e2/SdFat - Adafruit Fork/FatLib/FatVolume.cpp.o
+<command-line>: warning: "ARDUINO_USB_MODE" redefined
+<command-line>: note: this is the location of the previous definition
+Compiling .pio/build/esp32-s3-devkitc-1/lib9e2/SdFat - Adafruit Fork/FreeStack.cpp.o
+<command-line>: warning: "ARDUINO_USB_MODE" redefined
+<command-line>: note: this is the location of the previous definition
+Compiling .pio/build/esp32-s3-devkitc-1/lib9e2/SdFat - Adafruit Fork/FsLib/FsFile.cpp.o
+<command-line>: warning: "ARDUINO_USB_MODE" redefined
+<command-line>: note: this is the location of the previous definition
+Compiling .pio/build/esp32-s3-devkitc-1/lib9e2/SdFat - Adafruit Fork/FsLib/FsNew.cpp.o
+Compiling .pio/build/esp32-s3-devkitc-1/lib9e2/SdFat - Adafruit Fork/FsLib/FsVolume.cpp.o
+<command-line>: warning: "ARDUINO_USB_MODE" redefined
+<command-line>: note: this is the location of the previous definition
+<command-line>: warning: "ARDUINO_USB_MODE" redefined
+<command-line>: note: this is the location of the previous definition
+Compiling .pio/build/esp32-s3-devkitc-1/lib9e2/SdFat - Adafruit Fork/MinimumSerial.cpp.o
+<command-line>: warning: "ARDUINO_USB_MODE" redefined
+<command-line>: note: this is the location of the previous definition
+Compiling .pio/build/esp32-s3-devkitc-1/lib9e2/SdFat - Adafruit Fork/SdCard/PioSdio/PioSdioCard.cpp.o
+<command-line>: warning: "ARDUINO_USB_MODE" redefined
+<command-line>: note: this is the location of the previous definition
+Compiling .pio/build/esp32-s3-devkitc-1/lib9e2/SdFat - Adafruit Fork/SdCard/SdCardInfo.cpp.o
+<command-line>: warning: "ARDUINO_USB_MODE" redefined
+<command-line>: note: this is the location of the previous definition
+Compiling .pio/build/esp32-s3-devkitc-1/lib9e2/SdFat - Adafruit Fork/SdCard/SdSpiCard/SdSpiCard.cpp.o
+<command-line>: warning: "ARDUINO_USB_MODE" redefined
+<command-line>: note: this is the location of the previous definition
+Compiling .pio/build/esp32-s3-devkitc-1/lib9e2/SdFat - Adafruit Fork/SdCard/SdSpiCard/SpiDriver/SdSpiChipSelect.cpp.o
+<command-line>: warning: "ARDUINO_USB_MODE" redefined
+<command-line>: note: this is the location of the previous definition
+Compiling .pio/build/esp32-s3-devkitc-1/lib9e2/SdFat - Adafruit Fork/SdCard/SdSpiCard/SpiDriver/SdSpiDue.cpp.o
+<command-line>: warning: "ARDUINO_USB_MODE" redefined
+<command-line>: note: this is the location of the previous definition
+Compiling .pio/build/esp32-s3-devkitc-1/lib9e2/SdFat - Adafruit Fork/SdCard/SdSpiCard/SpiDriver/SdSpiSTM32Core.cpp.o
+<command-line>: warning: "ARDUINO_USB_MODE" redefined
+<command-line>: note: this is the location of the previous definition
+Compiling .pio/build/esp32-s3-devkitc-1/lib9e2/SdFat - Adafruit Fork/SdCard/SdSpiCard/SpiDriver/SdSpiTeensy3.cpp.o
+<command-line>: warning: "ARDUINO_USB_MODE" redefined
+<command-line>: note: this is the location of the previous definition
+Compiling .pio/build/esp32-s3-devkitc-1/lib9e2/SdFat - Adafruit Fork/SdCard/TeensySdio/TeensySdio.cpp.o
+<command-line>: warning: "ARDUINO_USB_MODE" redefined
+<command-line>: note: this is the location of the previous definition
+Compiling .pio/build/esp32-s3-devkitc-1/lib9e2/SdFat - Adafruit Fork/common/FmtNumber.cpp.o
+<command-line>: warning: "ARDUINO_USB_MODE" redefined
+<command-line>: note: this is the location of the previous definition
+Compiling .pio/build/esp32-s3-devkitc-1/lib9e2/SdFat - Adafruit Fork/common/FsCache.cpp.o
+Compiling .pio/build/esp32-s3-devkitc-1/lib9e2/SdFat - Adafruit Fork/common/FsDateTime.cpp.o
+<command-line>: warning: "ARDUINO_USB_MODE" redefined
+<command-line>: note: this is the location of the previous definition
+<command-line>: warning: "ARDUINO_USB_MODE" redefined
+<command-line>: note: this is the location of the previous definition
+Compiling .pio/build/esp32-s3-devkitc-1/lib9e2/SdFat - Adafruit Fork/common/FsName.cpp.o
+<command-line>: warning: "ARDUINO_USB_MODE" redefined
+<command-line>: note: this is the location of the previous definition
+Compiling .pio/build/esp32-s3-devkitc-1/lib9e2/SdFat - Adafruit Fork/common/FsStructs.cpp.o
+<command-line>: warning: "ARDUINO_USB_MODE" redefined
+<command-line>: note: this is the location of the previous definition
+Compiling .pio/build/esp32-s3-devkitc-1/lib9e2/SdFat - Adafruit Fork/common/FsUtf.cpp.o
+<command-line>: warning: "ARDUINO_USB_MODE" redefined
+<command-line>: note: this is the location of the previous definition
+Compiling .pio/build/esp32-s3-devkitc-1/lib9e2/SdFat - Adafruit Fork/common/PrintBasic.cpp.o
+Compiling .pio/build/esp32-s3-devkitc-1/lib9e2/SdFat - Adafruit Fork/common/upcase.cpp.o
+<command-line>: warning: "ARDUINO_USB_MODE" redefined
+<command-line>: note: this is the location of the previous definition
+<command-line>: warning: "ARDUINO_USB_MODE" redefined
+<command-line>: note: this is the location of the previous definition
+Compiling .pio/build/esp32-s3-devkitc-1/lib9e2/SdFat - Adafruit Fork/iostream/StdioStream.cpp.o
+<command-line>: warning: "ARDUINO_USB_MODE" redefined
+<command-line>: note: this is the location of the previous definition
+Compiling .pio/build/esp32-s3-devkitc-1/lib9e2/SdFat - Adafruit Fork/iostream/StreamBaseClass.cpp.o
+Compiling .pio/build/esp32-s3-devkitc-1/lib9e2/SdFat - Adafruit Fork/iostream/istream.cpp.o
+<command-line>: warning: "ARDUINO_USB_MODE" redefined
+<command-line>: note: this is the location of the previous definition
+<command-line>: warning: "ARDUINO_USB_MODE" redefined
+<command-line>: note: this is the location of the previous definition
+Compiling .pio/build/esp32-s3-devkitc-1/lib9e2/SdFat - Adafruit Fork/iostream/ostream.cpp.o
+<command-line>: warning: "ARDUINO_USB_MODE" redefined
+<command-line>: note: this is the location of the previous definition
+Compiling .pio/build/esp32-s3-devkitc-1/lib773/Adafruit TinyUSB Library/arduino/Adafruit_TinyUSB_API.cpp.o
+<command-line>: warning: "ARDUINO_USB_MODE" redefined
+<command-line>: note: this is the location of the previous definition
+Compiling .pio/build/esp32-s3-devkitc-1/lib773/Adafruit TinyUSB Library/arduino/Adafruit_USBD_CDC.cpp.o
+Compiling .pio/build/esp32-s3-devkitc-1/lib773/Adafruit TinyUSB Library/arduino/Adafruit_USBD_Device.cpp.o
+<command-line>: warning: "ARDUINO_USB_MODE" redefined
+<command-line>: note: this is the location of the previous definition
+<command-line>: warning: "ARDUINO_USB_MODE" redefined
+<command-line>: note: this is the location of the previous definition
+Compiling .pio/build/esp32-s3-devkitc-1/lib773/Adafruit TinyUSB Library/arduino/Adafruit_USBD_Interface.cpp.o
+<command-line>: warning: "ARDUINO_USB_MODE" redefined
+<command-line>: note: this is the location of the previous definition
+Archiving .pio/build/esp32-s3-devkitc-1/lib9e2/libSdFat - Adafruit Fork.a
+Indexing .pio/build/esp32-s3-devkitc-1/lib9e2/libSdFat - Adafruit Fork.a
+Compiling .pio/build/esp32-s3-devkitc-1/lib773/Adafruit TinyUSB Library/arduino/Adafruit_USBH_Host.cpp.o
+<command-line>: warning: "ARDUINO_USB_MODE" redefined
+<command-line>: note: this is the location of the previous definition
+Compiling .pio/build/esp32-s3-devkitc-1/lib773/Adafruit TinyUSB Library/arduino/cdc/Adafruit_USBH_CDC.cpp.o
+<command-line>: warning: "ARDUINO_USB_MODE" redefined
+<command-line>: note: this is the location of the previous definition
+Compiling .pio/build/esp32-s3-devkitc-1/lib773/Adafruit TinyUSB Library/arduino/hid/Adafruit_USBD_HID.cpp.o
+<command-line>: warning: "ARDUINO_USB_MODE" redefined
+<command-line>: note: this is the location of the previous definition
+Compiling .pio/build/esp32-s3-devkitc-1/lib773/Adafruit TinyUSB Library/arduino/midi/Adafruit_USBD_MIDI.cpp.o
+<command-line>: warning: "ARDUINO_USB_MODE" redefined
+<command-line>: note: this is the location of the previous definition
+Compiling .pio/build/esp32-s3-devkitc-1/lib773/Adafruit TinyUSB Library/arduino/msc/Adafruit_USBD_MSC.cpp.o
+<command-line>: warning: "ARDUINO_USB_MODE" redefined
+<command-line>: note: this is the location of the previous definition
+Compiling .pio/build/esp32-s3-devkitc-1/lib773/Adafruit TinyUSB Library/arduino/msc/Adafruit_USBH_MSC.cpp.o
+<command-line>: warning: "ARDUINO_USB_MODE" redefined
+<command-line>: note: this is the location of the previous definition
+Compiling .pio/build/esp32-s3-devkitc-1/lib773/Adafruit TinyUSB Library/arduino/ports/ch32/Adafruit_TinyUSB_ch32.cpp.o
+<command-line>: warning: "ARDUINO_USB_MODE" redefined
+<command-line>: note: this is the location of the previous definition
+Compiling .pio/build/esp32-s3-devkitc-1/lib773/Adafruit TinyUSB Library/arduino/ports/esp32/Adafruit_TinyUSB_esp32.cpp.o
+Compiling .pio/build/esp32-s3-devkitc-1/lib773/Adafruit TinyUSB Library/arduino/ports/nrf/Adafruit_TinyUSB_nrf.cpp.o
+<command-line>: warning: "ARDUINO_USB_MODE" redefined
+<command-line>: note: this is the location of the previous definition
+<command-line>: warning: "ARDUINO_USB_MODE" redefined
+<command-line>: note: this is the location of the previous definition
+Compiling .pio/build/esp32-s3-devkitc-1/lib773/Adafruit TinyUSB Library/arduino/ports/rp2040/Adafruit_TinyUSB_rp2040.cpp.o
+<command-line>: warning: "ARDUINO_USB_MODE" redefined
+<command-line>: note: this is the location of the previous definition
+Compiling .pio/build/esp32-s3-devkitc-1/lib773/Adafruit TinyUSB Library/arduino/ports/samd/Adafruit_TinyUSB_samd.cpp.o
+<command-line>: warning: "ARDUINO_USB_MODE" redefined
+<command-line>: note: this is the location of the previous definition
+Compiling .pio/build/esp32-s3-devkitc-1/lib773/Adafruit TinyUSB Library/arduino/ports/stm32/Adafruit_TinyUSB_stm32.cpp.o
+<command-line>: warning: "ARDUINO_USB_MODE" redefined
+<command-line>: note: this is the location of the previous definition
+Compiling .pio/build/esp32-s3-devkitc-1/lib773/Adafruit TinyUSB Library/arduino/video/Adafruit_USBD_Video.cpp.o
+<command-line>: warning: "ARDUINO_USB_MODE" redefined
+<command-line>: note: this is the location of the previous definition
+Compiling .pio/build/esp32-s3-devkitc-1/lib773/Adafruit TinyUSB Library/arduino/webusb/Adafruit_USBD_WebUSB.cpp.o
+<command-line>: warning: "ARDUINO_USB_MODE" redefined
+<command-line>: note: this is the location of the previous definition
+Compiling .pio/build/esp32-s3-devkitc-1/lib773/Adafruit TinyUSB Library/class/audio/audio_device.c.o
+<command-line>: warning: "ARDUINO_USB_MODE" redefined
+<command-line>: note: this is the location of the previous definition
+Compiling .pio/build/esp32-s3-devkitc-1/lib773/Adafruit TinyUSB Library/class/bth/bth_device.c.o
+<command-line>: warning: "ARDUINO_USB_MODE" redefined
+<command-line>: note: this is the location of the previous definition
+Compiling .pio/build/esp32-s3-devkitc-1/lib773/Adafruit TinyUSB Library/class/cdc/cdc_device.c.o
+<command-line>: warning: "ARDUINO_USB_MODE" redefined
+<command-line>: note: this is the location of the previous definition
+Compiling .pio/build/esp32-s3-devkitc-1/lib773/Adafruit TinyUSB Library/class/cdc/cdc_host.c.o
+<command-line>: warning: "ARDUINO_USB_MODE" redefined
+<command-line>: note: this is the location of the previous definition
+Compiling .pio/build/esp32-s3-devkitc-1/lib773/Adafruit TinyUSB Library/class/dfu/dfu_device.c.o
+<command-line>: warning: "ARDUINO_USB_MODE" redefined
+<command-line>: note: this is the location of the previous definition
+Compiling .pio/build/esp32-s3-devkitc-1/lib773/Adafruit TinyUSB Library/class/dfu/dfu_rt_device.c.o
+Compiling .pio/build/esp32-s3-devkitc-1/lib773/Adafruit TinyUSB Library/class/hid/hid_device.c.o
+<command-line>: warning: "ARDUINO_USB_MODE" redefined
+<command-line>: note: this is the location of the previous definition
+<command-line>: warning: "ARDUINO_USB_MODE" redefined
+<command-line>: note: this is the location of the previous definition
+Compiling .pio/build/esp32-s3-devkitc-1/lib773/Adafruit TinyUSB Library/class/hid/hid_host.c.o
+<command-line>: warning: "ARDUINO_USB_MODE" redefined
+<command-line>: note: this is the location of the previous definition
+Compiling .pio/build/esp32-s3-devkitc-1/lib773/Adafruit TinyUSB Library/class/midi/midi_device.c.o
+Compiling .pio/build/esp32-s3-devkitc-1/lib773/Adafruit TinyUSB Library/class/midi/midi_host.c.o
+<command-line>: warning: "ARDUINO_USB_MODE" redefined
+<command-line>: note: this is the location of the previous definition
+<command-line>: warning: "ARDUINO_USB_MODE" redefined
+<command-line>: note: this is the location of the previous definition
+Compiling .pio/build/esp32-s3-devkitc-1/lib773/Adafruit TinyUSB Library/class/msc/msc_device.c.o
+<command-line>: warning: "ARDUINO_USB_MODE" redefined
+<command-line>: note: this is the location of the previous definition
+Compiling .pio/build/esp32-s3-devkitc-1/lib773/Adafruit TinyUSB Library/class/msc/msc_host.c.o
+<command-line>: warning: "ARDUINO_USB_MODE" redefined
+<command-line>: note: this is the location of the previous definition
+Compiling .pio/build/esp32-s3-devkitc-1/lib773/Adafruit TinyUSB Library/class/net/ecm_rndis_device.c.o
+<command-line>: warning: "ARDUINO_USB_MODE" redefined
+<command-line>: note: this is the location of the previous definition
+Compiling .pio/build/esp32-s3-devkitc-1/lib773/Adafruit TinyUSB Library/class/net/ncm_device.c.o
+<command-line>: warning: "ARDUINO_USB_MODE" redefined
+<command-line>: note: this is the location of the previous definition
+Compiling .pio/build/esp32-s3-devkitc-1/lib773/Adafruit TinyUSB Library/class/usbtmc/usbtmc_device.c.o
+Compiling .pio/build/esp32-s3-devkitc-1/lib773/Adafruit TinyUSB Library/class/vendor/vendor_device.c.o
+<command-line>: warning: "ARDUINO_USB_MODE" redefined
+<command-line>: note: this is the location of the previous definition
+<command-line>: warning: "ARDUINO_USB_MODE" redefined
+<command-line>: note: this is the location of the previous definition
+Compiling .pio/build/esp32-s3-devkitc-1/lib773/Adafruit TinyUSB Library/class/video/video_device.c.o
+<command-line>: warning: "ARDUINO_USB_MODE" redefined
+<command-line>: note: this is the location of the previous definition
+Compiling .pio/build/esp32-s3-devkitc-1/lib773/Adafruit TinyUSB Library/common/tusb_fifo.c.o
+Compiling .pio/build/esp32-s3-devkitc-1/lib773/Adafruit TinyUSB Library/device/usbd.c.o
+<command-line>: warning: "ARDUINO_USB_MODE" redefined
+<command-line>: note: this is the location of the previous definition
+<command-line>: warning: "ARDUINO_USB_MODE" redefined
+<command-line>: note: this is the location of the previous definition
+Compiling .pio/build/esp32-s3-devkitc-1/lib773/Adafruit TinyUSB Library/device/usbd_control.c.o
+<command-line>: warning: "ARDUINO_USB_MODE" redefined
+<command-line>: note: this is the location of the previous definition
+Compiling .pio/build/esp32-s3-devkitc-1/lib773/Adafruit TinyUSB Library/host/hub.c.o
+<command-line>: warning: "ARDUINO_USB_MODE" redefined
+<command-line>: note: this is the location of the previous definition
+Compiling .pio/build/esp32-s3-devkitc-1/lib773/Adafruit TinyUSB Library/host/usbh.c.o
+<command-line>: warning: "ARDUINO_USB_MODE" redefined
+<command-line>: note: this is the location of the previous definition
+Compiling .pio/build/esp32-s3-devkitc-1/lib773/Adafruit TinyUSB Library/portable/analog/max3421/hcd_max3421.c.o
+<command-line>: warning: "ARDUINO_USB_MODE" redefined
+<command-line>: note: this is the location of the previous definition
+Compiling .pio/build/esp32-s3-devkitc-1/lib773/Adafruit TinyUSB Library/portable/microchip/samd/dcd_samd.c.o
+<command-line>: warning: "ARDUINO_USB_MODE" redefined
+<command-line>: note: this is the location of the previous definition
+Compiling .pio/build/esp32-s3-devkitc-1/lib773/Adafruit TinyUSB Library/portable/microchip/samd/hcd_samd.c.o
+<command-line>: warning: "ARDUINO_USB_MODE" redefined
+<command-line>: note: this is the location of the previous definition
+Compiling .pio/build/esp32-s3-devkitc-1/lib773/Adafruit TinyUSB Library/portable/nordic/nrf5x/dcd_nrf5x.c.o
+Compiling .pio/build/esp32-s3-devkitc-1/lib773/Adafruit TinyUSB Library/portable/raspberrypi/pio_usb/dcd_pio_usb.c.o
+<command-line>: warning: "ARDUINO_USB_MODE" redefined
+<command-line>: note: this is the location of the previous definition
+<command-line>: warning: "ARDUINO_USB_MODE" redefined
+<command-line>: note: this is the location of the previous definition
+Compiling .pio/build/esp32-s3-devkitc-1/lib773/Adafruit TinyUSB Library/portable/raspberrypi/pio_usb/hcd_pio_usb.c.o
+<command-line>: warning: "ARDUINO_USB_MODE" redefined
+<command-line>: note: this is the location of the previous definition
+Compiling .pio/build/esp32-s3-devkitc-1/lib773/Adafruit TinyUSB Library/portable/raspberrypi/rp2040/dcd_rp2040.c.o
+<command-line>: warning: "ARDUINO_USB_MODE" redefined
+<command-line>: note: this is the location of the previous definition
+Compiling .pio/build/esp32-s3-devkitc-1/lib773/Adafruit TinyUSB Library/portable/raspberrypi/rp2040/hcd_rp2040.c.o
+<command-line>: warning: "ARDUINO_USB_MODE" redefined
+<command-line>: note: this is the location of the previous definition
+Compiling .pio/build/esp32-s3-devkitc-1/lib773/Adafruit TinyUSB Library/portable/raspberrypi/rp2040/rp2040_usb.c.o
+<command-line>: warning: "ARDUINO_USB_MODE" redefined
+<command-line>: note: this is the location of the previous definition
+Compiling .pio/build/esp32-s3-devkitc-1/lib773/Adafruit TinyUSB Library/portable/st/stm32_fsdev/dcd_stm32_fsdev.c.o
+<command-line>: warning: "ARDUINO_USB_MODE" redefined
+<command-line>: note: this is the location of the previous definition
+Compiling .pio/build/esp32-s3-devkitc-1/lib773/Adafruit TinyUSB Library/portable/synopsys/dwc2/dcd_dwc2.c.o
+<command-line>: warning: "ARDUINO_USB_MODE" redefined
+<command-line>: note: this is the location of the previous definition
+Compiling .pio/build/esp32-s3-devkitc-1/lib773/Adafruit TinyUSB Library/portable/synopsys/dwc2/dwc2_common.c.o
+Compiling .pio/build/esp32-s3-devkitc-1/lib773/Adafruit TinyUSB Library/portable/synopsys/dwc2/hcd_dwc2.c.o
+<command-line>: warning: "ARDUINO_USB_MODE" redefined
+<command-line>: note: this is the location of the previous definition
+<command-line>: warning: "ARDUINO_USB_MODE" redefined
+<command-line>: note: this is the location of the previous definition
+Compiling .pio/build/esp32-s3-devkitc-1/lib773/Adafruit TinyUSB Library/portable/wch/dcd_ch32_usbfs.c.o
+<command-line>: warning: "ARDUINO_USB_MODE" redefined
+<command-line>: note: this is the location of the previous definition
+Compiling .pio/build/esp32-s3-devkitc-1/lib773/Adafruit TinyUSB Library/portable/wch/dcd_ch32_usbhs.c.o
+Compiling .pio/build/esp32-s3-devkitc-1/lib773/Adafruit TinyUSB Library/portable/wch/hcd_ch32_usbfs.c.o
+<command-line>: warning: "ARDUINO_USB_MODE" redefined
+<command-line>: note: this is the location of the previous definition
+<command-line>: warning: "ARDUINO_USB_MODE" redefined
+<command-line>: note: this is the location of the previous definition
+Compiling .pio/build/esp32-s3-devkitc-1/lib773/Adafruit TinyUSB Library/tusb.c.o
+<command-line>: warning: "ARDUINO_USB_MODE" redefined
+<command-line>: note: this is the location of the previous definition
+Compiling .pio/build/esp32-s3-devkitc-1/lib96f/Preferences/Preferences.cpp.o
+<command-line>: warning: "ARDUINO_USB_MODE" redefined
+<command-line>: note: this is the location of the previous definition
+Compiling .pio/build/esp32-s3-devkitc-1/FrameworkArduino/Esp.cpp.o
+Archiving .pio/build/esp32-s3-devkitc-1/lib773/libAdafruit TinyUSB Library.a
+<command-line>: warning: "ARDUINO_USB_MODE" redefined
+<command-line>: note: this is the location of the previous definition
+Compiling .pio/build/esp32-s3-devkitc-1/FrameworkArduino/FirmwareMSC.cpp.o
+Indexing .pio/build/esp32-s3-devkitc-1/lib773/libAdafruit TinyUSB Library.a
+<command-line>: warning: "ARDUINO_USB_MODE" redefined
+<command-line>: note: this is the location of the previous definition
+Compiling .pio/build/esp32-s3-devkitc-1/FrameworkArduino/FunctionalInterrupt.cpp.o
+<command-line>: warning: "ARDUINO_USB_MODE" redefined
+<command-line>: note: this is the location of the previous definition
+Compiling .pio/build/esp32-s3-devkitc-1/FrameworkArduino/HWCDC.cpp.o
+<command-line>: warning: "ARDUINO_USB_MODE" redefined
+<command-line>: note: this is the location of the previous definition
+Archiving .pio/build/esp32-s3-devkitc-1/lib96f/libPreferences.a
+Indexing .pio/build/esp32-s3-devkitc-1/lib96f/libPreferences.a
+Compiling .pio/build/esp32-s3-devkitc-1/FrameworkArduino/HardwareSerial.cpp.o
+Compiling .pio/build/esp32-s3-devkitc-1/FrameworkArduino/IPAddress.cpp.o
+<command-line>: warning: "ARDUINO_USB_MODE" redefined
+<command-line>: note: this is the location of the previous definition
+<command-line>: warning: "ARDUINO_USB_MODE" redefined
+<command-line>: note: this is the location of the previous definition
+Compiling .pio/build/esp32-s3-devkitc-1/FrameworkArduino/IPv6Address.cpp.o
+<command-line>: warning: "ARDUINO_USB_MODE" redefined
+<command-line>: note: this is the location of the previous definition
+Compiling .pio/build/esp32-s3-devkitc-1/FrameworkArduino/MD5Builder.cpp.o
+<command-line>: warning: "ARDUINO_USB_MODE" redefined
+<command-line>: note: this is the location of the previous definition
+Compiling .pio/build/esp32-s3-devkitc-1/FrameworkArduino/Print.cpp.o
+<command-line>: warning: "ARDUINO_USB_MODE" redefined
+<command-line>: note: this is the location of the previous definition
+Compiling .pio/build/esp32-s3-devkitc-1/FrameworkArduino/Stream.cpp.o
+<command-line>: warning: "ARDUINO_USB_MODE" redefined
+<command-line>: note: this is the location of the previous definition
+Compiling .pio/build/esp32-s3-devkitc-1/FrameworkArduino/StreamString.cpp.o
+<command-line>: warning: "ARDUINO_USB_MODE" redefined
+<command-line>: note: this is the location of the previous definition
+Compiling .pio/build/esp32-s3-devkitc-1/FrameworkArduino/Tone.cpp.o
+<command-line>: warning: "ARDUINO_USB_MODE" redefined
+<command-line>: note: this is the location of the previous definition
+Compiling .pio/build/esp32-s3-devkitc-1/FrameworkArduino/USB.cpp.o
+<command-line>: warning: "ARDUINO_USB_MODE" redefined
+<command-line>: note: this is the location of the previous definition
+Compiling .pio/build/esp32-s3-devkitc-1/FrameworkArduino/USBCDC.cpp.o
+Compiling .pio/build/esp32-s3-devkitc-1/FrameworkArduino/USBMSC.cpp.o
+<command-line>: warning: "ARDUINO_USB_MODE" redefined
+<command-line>: note: this is the location of the previous definition
+Compiling .pio/build/esp32-s3-devkitc-1/FrameworkArduino/WMath.cpp.o
+<command-line>: warning: "ARDUINO_USB_MODE" redefined
+<command-line>: note: this is the location of the previous definition
+<command-line>: warning: "ARDUINO_USB_MODE" redefined
+<command-line>: note: this is the location of the previous definition
+Compiling .pio/build/esp32-s3-devkitc-1/FrameworkArduino/WString.cpp.o
+<command-line>: warning: "ARDUINO_USB_MODE" redefined
+<command-line>: note: this is the location of the previous definition
+Compiling .pio/build/esp32-s3-devkitc-1/FrameworkArduino/base64.cpp.o
+<command-line>: warning: "ARDUINO_USB_MODE" redefined
+<command-line>: note: this is the location of the previous definition
+Compiling .pio/build/esp32-s3-devkitc-1/FrameworkArduino/cbuf.cpp.o
+<command-line>: warning: "ARDUINO_USB_MODE" redefined
+<command-line>: note: this is the location of the previous definition
+Compiling .pio/build/esp32-s3-devkitc-1/FrameworkArduino/esp32-hal-adc.c.o
+<command-line>: warning: "ARDUINO_USB_MODE" redefined
+<command-line>: note: this is the location of the previous definition
+Compiling .pio/build/esp32-s3-devkitc-1/FrameworkArduino/esp32-hal-bt.c.o
+<command-line>: warning: "ARDUINO_USB_MODE" redefined
+<command-line>: note: this is the location of the previous definition
+Compiling .pio/build/esp32-s3-devkitc-1/FrameworkArduino/esp32-hal-cpu.c.o
+<command-line>: warning: "ARDUINO_USB_MODE" redefined
+<command-line>: note: this is the location of the previous definition
+Compiling .pio/build/esp32-s3-devkitc-1/FrameworkArduino/esp32-hal-dac.c.o
+<command-line>: warning: "ARDUINO_USB_MODE" redefined
+<command-line>: note: this is the location of the previous definition
+Compiling .pio/build/esp32-s3-devkitc-1/FrameworkArduino/esp32-hal-gpio.c.o
+<command-line>: warning: "ARDUINO_USB_MODE" redefined
+<command-line>: note: this is the location of the previous definition
+Compiling .pio/build/esp32-s3-devkitc-1/FrameworkArduino/esp32-hal-i2c-slave.c.o
+<command-line>: warning: "ARDUINO_USB_MODE" redefined
+<command-line>: note: this is the location of the previous definition
+Compiling .pio/build/esp32-s3-devkitc-1/FrameworkArduino/esp32-hal-i2c.c.o
+<command-line>: warning: "ARDUINO_USB_MODE" redefined
+<command-line>: note: this is the location of the previous definition
+Compiling .pio/build/esp32-s3-devkitc-1/FrameworkArduino/esp32-hal-ledc.c.o
+<command-line>: warning: "ARDUINO_USB_MODE" redefined
+<command-line>: note: this is the location of the previous definition
+Compiling .pio/build/esp32-s3-devkitc-1/FrameworkArduino/esp32-hal-matrix.c.o
+<command-line>: warning: "ARDUINO_USB_MODE" redefined
+<command-line>: note: this is the location of the previous definition
+Compiling .pio/build/esp32-s3-devkitc-1/FrameworkArduino/esp32-hal-misc.c.o
+<command-line>: warning: "ARDUINO_USB_MODE" redefined
+<command-line>: note: this is the location of the previous definition
+Compiling .pio/build/esp32-s3-devkitc-1/FrameworkArduino/esp32-hal-psram.c.o
+Compiling .pio/build/esp32-s3-devkitc-1/FrameworkArduino/esp32-hal-rgb-led.c.o
+<command-line>: warning: "ARDUINO_USB_MODE" redefined
+<command-line>: note: this is the location of the previous definition
+<command-line>: warning: "ARDUINO_USB_MODE" redefined
+<command-line>: note: this is the location of the previous definition
+Compiling .pio/build/esp32-s3-devkitc-1/FrameworkArduino/esp32-hal-rmt.c.o
+<command-line>: warning: "ARDUINO_USB_MODE" redefined
+<command-line>: note: this is the location of the previous definition
+Compiling .pio/build/esp32-s3-devkitc-1/FrameworkArduino/esp32-hal-sigmadelta.c.o
+<command-line>: warning: "ARDUINO_USB_MODE" redefined
+<command-line>: note: this is the location of the previous definition
+Compiling .pio/build/esp32-s3-devkitc-1/FrameworkArduino/esp32-hal-spi.c.o
+<command-line>: warning: "ARDUINO_USB_MODE" redefined
+<command-line>: note: this is the location of the previous definition
+Compiling .pio/build/esp32-s3-devkitc-1/FrameworkArduino/esp32-hal-time.c.o
+<command-line>: warning: "ARDUINO_USB_MODE" redefined
+<command-line>: note: this is the location of the previous definition
+Compiling .pio/build/esp32-s3-devkitc-1/FrameworkArduino/esp32-hal-timer.c.o
+<command-line>: warning: "ARDUINO_USB_MODE" redefined
+<command-line>: note: this is the location of the previous definition
+Compiling .pio/build/esp32-s3-devkitc-1/FrameworkArduino/esp32-hal-tinyusb.c.o
+Compiling .pio/build/esp32-s3-devkitc-1/FrameworkArduino/esp32-hal-touch.c.o
+<command-line>: warning: "ARDUINO_USB_MODE" redefined
+<command-line>: note: this is the location of the previous definition
+<command-line>: warning: "ARDUINO_USB_MODE" redefined
+<command-line>: note: this is the location of the previous definition
+Compiling .pio/build/esp32-s3-devkitc-1/FrameworkArduino/esp32-hal-uart.c.o
+<command-line>: warning: "ARDUINO_USB_MODE" redefined
+<command-line>: note: this is the location of the previous definition
+Compiling .pio/build/esp32-s3-devkitc-1/FrameworkArduino/firmware_msc_fat.c.o
+/home/jules/.platformio/packages/framework-arduinoespressif32@3.20014.231204/cores/esp32/esp32-hal-uart.c: In function 'uartSetPins':
+/home/jules/.platformio/packages/framework-arduinoespressif32@3.20014.231204/cores/esp32/esp32-hal-uart.c:153:9: warning: 'return' with no value, in function returning non-void
+         return;
+         ^~~~~~
+/home/jules/.platformio/packages/framework-arduinoespressif32@3.20014.231204/cores/esp32/esp32-hal-uart.c:149:6: note: declared here
+ bool uartSetPins(uint8_t uart_num, int8_t rxPin, int8_t txPin, int8_t ctsPin, int8_t rtsPin)
+      ^~~~~~~~~~~
+Compiling .pio/build/esp32-s3-devkitc-1/FrameworkArduino/libb64/cdecode.c.o
+<command-line>: warning: "ARDUINO_USB_MODE" redefined
+<command-line>: note: this is the location of the previous definition
+<command-line>: warning: "ARDUINO_USB_MODE" redefined
+<command-line>: note: this is the location of the previous definition
+Compiling .pio/build/esp32-s3-devkitc-1/FrameworkArduino/libb64/cencode.c.o
+<command-line>: warning: "ARDUINO_USB_MODE" redefined
+<command-line>: note: this is the location of the previous definition
+Compiling .pio/build/esp32-s3-devkitc-1/FrameworkArduino/main.cpp.o
+Compiling .pio/build/esp32-s3-devkitc-1/FrameworkArduino/stdlib_noniso.c.o
+<command-line>: warning: "ARDUINO_USB_MODE" redefined
+<command-line>: note: this is the location of the previous definition
+Compiling .pio/build/esp32-s3-devkitc-1/FrameworkArduino/wiring_pulse.c.o
+<command-line>: warning: "ARDUINO_USB_MODE" redefined
+<command-line>: note: this is the location of the previous definition
+<command-line>: warning: "ARDUINO_USB_MODE" redefined
+<command-line>: note: this is the location of the previous definition
+Compiling .pio/build/esp32-s3-devkitc-1/FrameworkArduino/wiring_shift.c.o
+<command-line>: warning: "ARDUINO_USB_MODE" redefined
+<command-line>: note: this is the location of the previous definition
+Archiving .pio/build/esp32-s3-devkitc-1/libFrameworkArduino.a
+Indexing .pio/build/esp32-s3-devkitc-1/libFrameworkArduino.a
+Linking .pio/build/esp32-s3-devkitc-1/firmware.elf
+/home/jules/.platformio/packages/toolchain-xtensa-esp32s3/bin/../lib/gcc/xtensa-esp32s3-elf/8.4.0/../../../../xtensa-esp32s3-elf/bin/ld: /home/jules/.platformio/packages/framework-arduinoespressif32@3.20014.231204/tools/sdk/esp32s3/lib/libarduino_tinyusb.a(tusb.c.obj): in function `tusb_inited':
+/Users/ficeto/Desktop/ESP32/ESP32S2/esp32-arduino-lib-builder/components/arduino_tinyusb/tinyusb/src/tusb.c:62: multiple definition of `tusb_inited'; .pio/build/esp32-s3-devkitc-1/lib773/libAdafruit TinyUSB Library.a(tusb.c.o):/app/pedals-firmware/.pio/libdeps/esp32-s3-devkitc-1/Adafruit TinyUSB Library/src/tusb.c:116: first defined here
+/home/jules/.platformio/packages/toolchain-xtensa-esp32s3/bin/../lib/gcc/xtensa-esp32s3-elf/8.4.0/../../../../xtensa-esp32s3-elf/bin/ld: /home/jules/.platformio/packages/framework-arduinoespressif32@3.20014.231204/tools/sdk/esp32s3/lib/libarduino_tinyusb.a(tusb.c.obj): in function `tu_desc_find':
+/Users/ficeto/Desktop/ESP32/ESP32S2/esp32-arduino-lib-builder/components/arduino_tinyusb/tinyusb/src/tusb.c:81: multiple definition of `tu_desc_find'; .pio/build/esp32-s3-devkitc-1/lib773/libAdafruit TinyUSB Library.a(tusb.c.o):/app/pedals-firmware/.pio/libdeps/esp32-s3-devkitc-1/Adafruit TinyUSB Library/src/tusb.c:174: first defined here
+/home/jules/.platformio/packages/toolchain-xtensa-esp32s3/bin/../lib/gcc/xtensa-esp32s3-elf/8.4.0/../../../../xtensa-esp32s3-elf/bin/ld: /home/jules/.platformio/packages/framework-arduinoespressif32@3.20014.231204/tools/sdk/esp32s3/lib/libarduino_tinyusb.a(tusb.c.obj): in function `tu_desc_find2':
+/Users/ficeto/Desktop/ESP32/ESP32S2/esp32-arduino-lib-builder/components/arduino_tinyusb/tinyusb/src/tusb.c:91: multiple definition of `tu_desc_find2'; .pio/build/esp32-s3-devkitc-1/lib773/libAdafruit TinyUSB Library.a(tusb.c.o):/app/pedals-firmware/.pio/libdeps/esp32-s3-devkitc-1/Adafruit TinyUSB Library/src/tusb.c:184: first defined here
+/home/jules/.platformio/packages/toolchain-xtensa-esp32s3/bin/../lib/gcc/xtensa-esp32s3-elf/8.4.0/../../../../xtensa-esp32s3-elf/bin/ld: /home/jules/.platformio/packages/framework-arduinoespressif32@3.20014.231204/tools/sdk/esp32s3/lib/libarduino_tinyusb.a(tusb.c.obj): in function `tu_desc_find3':
+/Users/ficeto/Desktop/ESP32/ESP32S2/esp32-arduino-lib-builder/components/arduino_tinyusb/tinyusb/src/tusb.c:101: multiple definition of `tu_desc_find3'; .pio/build/esp32-s3-devkitc-1/lib773/libAdafruit TinyUSB Library.a(tusb.c.o):/app/pedals-firmware/.pio/libdeps/esp32-s3-devkitc-1/Adafruit TinyUSB Library/src/tusb.c:194: first defined here
+/home/jules/.platformio/packages/toolchain-xtensa-esp32s3/bin/../lib/gcc/xtensa-esp32s3-elf/8.4.0/../../../../xtensa-esp32s3-elf/bin/ld: /home/jules/.platformio/packages/framework-arduinoespressif32@3.20014.231204/tools/sdk/esp32s3/lib/libarduino_tinyusb.a(tusb.c.obj): in function `tu_edpt_claim':
+/Users/ficeto/Desktop/ESP32/ESP32S2/esp32-arduino-lib-builder/components/arduino_tinyusb/tinyusb/src/tusb.c:116: multiple definition of `tu_edpt_claim'; .pio/build/esp32-s3-devkitc-1/lib773/libAdafruit TinyUSB Library.a(tusb.c.o):/app/pedals-firmware/.pio/libdeps/esp32-s3-devkitc-1/Adafruit TinyUSB Library/src/tusb.c:208: first defined here
+/home/jules/.platformio/packages/toolchain-xtensa-esp32s3/bin/../lib/gcc/xtensa-esp32s3-elf/8.4.0/../../../../xtensa-esp32s3-elf/bin/ld: /home/jules/.platformio/packages/framework-arduinoespressif32@3.20014.231204/tools/sdk/esp32s3/lib/libarduino_tinyusb.a(tusb.c.obj): in function `tu_edpt_release':
+/Users/ficeto/Desktop/ESP32/ESP32S2/esp32-arduino-lib-builder/components/arduino_tinyusb/tinyusb/src/tusb.c:136: multiple definition of `tu_edpt_release'; .pio/build/esp32-s3-devkitc-1/lib773/libAdafruit TinyUSB Library.a(tusb.c.o):/app/pedals-firmware/.pio/libdeps/esp32-s3-devkitc-1/Adafruit TinyUSB Library/src/tusb.c:225: first defined here
+/home/jules/.platformio/packages/toolchain-xtensa-esp32s3/bin/../lib/gcc/xtensa-esp32s3-elf/8.4.0/../../../../xtensa-esp32s3-elf/bin/ld: /home/jules/.platformio/packages/framework-arduinoespressif32@3.20014.231204/tools/sdk/esp32s3/lib/libarduino_tinyusb.a(tusb.c.obj): in function `tu_edpt_validate':
+/Users/ficeto/Desktop/ESP32/ESP32S2/esp32-arduino-lib-builder/components/arduino_tinyusb/tinyusb/src/tusb.c:154: multiple definition of `tu_edpt_validate'; .pio/build/esp32-s3-devkitc-1/lib773/libAdafruit TinyUSB Library.a(tusb.c.o):/app/pedals-firmware/.pio/libdeps/esp32-s3-devkitc-1/Adafruit TinyUSB Library/src/tusb.c:239: first defined here
+/home/jules/.platformio/packages/toolchain-xtensa-esp32s3/bin/../lib/gcc/xtensa-esp32s3-elf/8.4.0/../../../../xtensa-esp32s3-elf/bin/ld: /home/jules/.platformio/packages/framework-arduinoespressif32@3.20014.231204/tools/sdk/esp32s3/lib/libarduino_tinyusb.a(tusb.c.obj): in function `tu_edpt_bind_driver':
+/Users/ficeto/Desktop/ESP32/ESP32S2/esp32-arduino-lib-builder/components/arduino_tinyusb/tinyusb/src/tusb.c:193: multiple definition of `tu_edpt_bind_driver'; .pio/build/esp32-s3-devkitc-1/lib773/libAdafruit TinyUSB Library.a(tusb.c.o):/app/pedals-firmware/.pio/libdeps/esp32-s3-devkitc-1/Adafruit TinyUSB Library/src/tusb.c:283: first defined here
+/home/jules/.platformio/packages/toolchain-xtensa-esp32s3/bin/../lib/gcc/xtensa-esp32s3-elf/8.4.0/../../../../xtensa-esp32s3-elf/bin/ld: /home/jules/.platformio/packages/framework-arduinoespressif32@3.20014.231204/tools/sdk/esp32s3/lib/libarduino_tinyusb.a(tusb.c.obj): in function `tu_desc_get_interface_total_len':
+/Users/ficeto/Desktop/ESP32/ESP32S2/esp32-arduino-lib-builder/components/arduino_tinyusb/tinyusb/src/tusb.c:212: multiple definition of `tu_desc_get_interface_total_len'; .pio/build/esp32-s3-devkitc-1/lib773/libAdafruit TinyUSB Library.a(tusb.c.o):/app/pedals-firmware/.pio/libdeps/esp32-s3-devkitc-1/Adafruit TinyUSB Library/src/tusb.c:297: first defined here
+/home/jules/.platformio/packages/toolchain-xtensa-esp32s3/bin/../lib/gcc/xtensa-esp32s3-elf/8.4.0/../../../../xtensa-esp32s3-elf/bin/ld: /home/jules/.platformio/packages/framework-arduinoespressif32@3.20014.231204/tools/sdk/esp32s3/lib/libarduino_tinyusb.a(tusb.c.obj): in function `tu_edpt_stream_init':
+/Users/ficeto/Desktop/ESP32/ESP32S2/esp32-arduino-lib-builder/components/arduino_tinyusb/tinyusb/src/tusb.c:247: multiple definition of `tu_edpt_stream_init'; .pio/build/esp32-s3-devkitc-1/lib773/libAdafruit TinyUSB Library.a(tusb.c.o):/app/pedals-firmware/.pio/libdeps/esp32-s3-devkitc-1/Adafruit TinyUSB Library/src/tusb.c:333: first defined here
+/home/jules/.platformio/packages/toolchain-xtensa-esp32s3/bin/../lib/gcc/xtensa-esp32s3-elf/8.4.0/../../../../xtensa-esp32s3-elf/bin/ld: /home/jules/.platformio/packages/framework-arduinoespressif32@3.20014.231204/tools/sdk/esp32s3/lib/libarduino_tinyusb.a(tusb.c.obj): in function `tu_edpt_stream_write_zlp_if_needed':
+/Users/ficeto/Desktop/ESP32/ESP32S2/esp32-arduino-lib-builder/components/arduino_tinyusb/tinyusb/src/tusb.c:321: multiple definition of `tu_edpt_stream_write_zlp_if_needed'; .pio/build/esp32-s3-devkitc-1/lib773/libAdafruit TinyUSB Library.a(tusb.c.o):/app/pedals-firmware/.pio/libdeps/esp32-s3-devkitc-1/Adafruit TinyUSB Library/src/tusb.c:403: first defined here
+/home/jules/.platformio/packages/toolchain-xtensa-esp32s3/bin/../lib/gcc/xtensa-esp32s3-elf/8.4.0/../../../../xtensa-esp32s3-elf/bin/ld: /home/jules/.platformio/packages/framework-arduinoespressif32@3.20014.231204/tools/sdk/esp32s3/lib/libarduino_tinyusb.a(tusb.c.obj): in function `tu_edpt_stream_write_xfer':
+/Users/ficeto/Desktop/ESP32/ESP32S2/esp32-arduino-lib-builder/components/arduino_tinyusb/tinyusb/src/tusb.c:332: multiple definition of `tu_edpt_stream_write_xfer'; .pio/build/esp32-s3-devkitc-1/lib773/libAdafruit TinyUSB Library.a(tusb.c.o):/app/pedals-firmware/.pio/libdeps/esp32-s3-devkitc-1/Adafruit TinyUSB Library/src/tusb.c:412: first defined here
+/home/jules/.platformio/packages/toolchain-xtensa-esp32s3/bin/../lib/gcc/xtensa-esp32s3-elf/8.4.0/../../../../xtensa-esp32s3-elf/bin/ld: /home/jules/.platformio/packages/framework-arduinoespressif32@3.20014.231204/tools/sdk/esp32s3/lib/libarduino_tinyusb.a(tusb.c.obj): in function `tu_edpt_stream_write':
+/Users/ficeto/Desktop/ESP32/ESP32S2/esp32-arduino-lib-builder/components/arduino_tinyusb/tinyusb/src/tusb.c:356: multiple definition of `tu_edpt_stream_write'; .pio/build/esp32-s3-devkitc-1/lib773/libAdafruit TinyUSB Library.a(tusb.c.o):/app/pedals-firmware/.pio/libdeps/esp32-s3-devkitc-1/Adafruit TinyUSB Library/src/tusb.c:432: first defined here
+/home/jules/.platformio/packages/toolchain-xtensa-esp32s3/bin/../lib/gcc/xtensa-esp32s3-elf/8.4.0/../../../../xtensa-esp32s3-elf/bin/ld: /home/jules/.platformio/packages/framework-arduinoespressif32@3.20014.231204/tools/sdk/esp32s3/lib/libarduino_tinyusb.a(tusb.c.obj): in function `tu_edpt_stream_read_xfer':
+/Users/ficeto/Desktop/ESP32/ESP32S2/esp32-arduino-lib-builder/components/arduino_tinyusb/tinyusb/src/tusb.c:376: multiple definition of `tu_edpt_stream_read_xfer'; .pio/build/esp32-s3-devkitc-1/lib773/libAdafruit TinyUSB Library.a(tusb.c.o):/app/pedals-firmware/.pio/libdeps/esp32-s3-devkitc-1/Adafruit TinyUSB Library/src/tusb.c:476: first defined here
+/home/jules/.platformio/packages/toolchain-xtensa-esp32s3/bin/../lib/gcc/xtensa-esp32s3-elf/8.4.0/../../../../xtensa-esp32s3-elf/bin/ld: /home/jules/.platformio/packages/framework-arduinoespressif32@3.20014.231204/tools/sdk/esp32s3/lib/libarduino_tinyusb.a(tusb.c.obj): in function `tu_edpt_stream_read':
+/Users/ficeto/Desktop/ESP32/ESP32S2/esp32-arduino-lib-builder/components/arduino_tinyusb/tinyusb/src/tusb.c:409: multiple definition of `tu_edpt_stream_read'; .pio/build/esp32-s3-devkitc-1/lib773/libAdafruit TinyUSB Library.a(tusb.c.o):/app/pedals-firmware/.pio/libdeps/esp32-s3-devkitc-1/Adafruit TinyUSB Library/src/tusb.c:511: first defined here
+/home/jules/.platformio/packages/toolchain-xtensa-esp32s3/bin/../lib/gcc/xtensa-esp32s3-elf/8.4.0/../../../../xtensa-esp32s3-elf/bin/ld: /home/jules/.platformio/packages/framework-arduinoespressif32@3.20014.231204/tools/sdk/esp32s3/lib/libarduino_tinyusb.a(usbd.c.obj): in function `tud_speed_get':
+/Users/ficeto/Desktop/ESP32/ESP32S2/esp32-arduino-lib-builder/components/arduino_tinyusb/tinyusb/src/device/usbd.c:333: multiple definition of `tud_speed_get'; .pio/build/esp32-s3-devkitc-1/lib773/libAdafruit TinyUSB Library.a(usbd.c.o):/app/pedals-firmware/.pio/libdeps/esp32-s3-devkitc-1/Adafruit TinyUSB Library/src/device/usbd.c:455: first defined here
+/home/jules/.platformio/packages/toolchain-xtensa-esp32s3/bin/../lib/gcc/xtensa-esp32s3-elf/8.4.0/../../../../xtensa-esp32s3-elf/bin/ld: /home/jules/.platformio/packages/framework-arduinoespressif32@3.20014.231204/tools/sdk/esp32s3/lib/libarduino_tinyusb.a(usbd.c.obj): in function `tud_connected':
+/Users/ficeto/Desktop/ESP32/ESP32S2/esp32-arduino-lib-builder/components/arduino_tinyusb/tinyusb/src/device/usbd.c:338: multiple definition of `tud_connected'; .pio/build/esp32-s3-devkitc-1/lib773/libAdafruit TinyUSB Library.a(usbd.c.o):/app/pedals-firmware/.pio/libdeps/esp32-s3-devkitc-1/Adafruit TinyUSB Library/src/device/usbd.c:459: first defined here
+/home/jules/.platformio/packages/toolchain-xtensa-esp32s3/bin/../lib/gcc/xtensa-esp32s3-elf/8.4.0/../../../../xtensa-esp32s3-elf/bin/ld: /home/jules/.platformio/packages/framework-arduinoespressif32@3.20014.231204/tools/sdk/esp32s3/lib/libarduino_tinyusb.a(usbd.c.obj): in function `tud_mounted':
+/Users/ficeto/Desktop/ESP32/ESP32S2/esp32-arduino-lib-builder/components/arduino_tinyusb/tinyusb/src/device/usbd.c:343: multiple definition of `tud_mounted'; .pio/build/esp32-s3-devkitc-1/lib773/libAdafruit TinyUSB Library.a(usbd.c.o):/app/pedals-firmware/.pio/libdeps/esp32-s3-devkitc-1/Adafruit TinyUSB Library/src/device/usbd.c:463: first defined here
+/home/jules/.platformio/packages/toolchain-xtensa-esp32s3/bin/../lib/gcc/xtensa-esp32s3-elf/8.4.0/../../../../xtensa-esp32s3-elf/bin/ld: /home/jules/.platformio/packages/framework-arduinoespressif32@3.20014.231204/tools/sdk/esp32s3/lib/libarduino_tinyusb.a(usbd.c.obj): in function `tud_suspended':
+/Users/ficeto/Desktop/ESP32/ESP32S2/esp32-arduino-lib-builder/components/arduino_tinyusb/tinyusb/src/device/usbd.c:348: multiple definition of `tud_suspended'; .pio/build/esp32-s3-devkitc-1/lib773/libAdafruit TinyUSB Library.a(usbd.c.o):/app/pedals-firmware/.pio/libdeps/esp32-s3-devkitc-1/Adafruit TinyUSB Library/src/device/usbd.c:467: first defined here
+/home/jules/.platformio/packages/toolchain-xtensa-esp32s3/bin/../lib/gcc/xtensa-esp32s3-elf/8.4.0/../../../../xtensa-esp32s3-elf/bin/ld: /home/jules/.platformio/packages/framework-arduinoespressif32@3.20014.231204/tools/sdk/esp32s3/lib/libarduino_tinyusb.a(usbd.c.obj): in function `tud_remote_wakeup':
+/Users/ficeto/Desktop/ESP32/ESP32S2/esp32-arduino-lib-builder/components/arduino_tinyusb/tinyusb/src/device/usbd.c:353: multiple definition of `tud_remote_wakeup'; .pio/build/esp32-s3-devkitc-1/lib773/libAdafruit TinyUSB Library.a(usbd.c.o):/app/pedals-firmware/.pio/libdeps/esp32-s3-devkitc-1/Adafruit TinyUSB Library/src/device/usbd.c:471: first defined here
+/home/jules/.platformio/packages/toolchain-xtensa-esp32s3/bin/../lib/gcc/xtensa-esp32s3-elf/8.4.0/../../../../xtensa-esp32s3-elf/bin/ld: /home/jules/.platformio/packages/framework-arduinoespressif32@3.20014.231204/tools/sdk/esp32s3/lib/libarduino_tinyusb.a(usbd.c.obj): in function `tud_disconnect':
+/Users/ficeto/Desktop/ESP32/ESP32S2/esp32-arduino-lib-builder/components/arduino_tinyusb/tinyusb/src/device/usbd.c:361: multiple definition of `tud_disconnect'; .pio/build/esp32-s3-devkitc-1/lib773/libAdafruit TinyUSB Library.a(usbd.c.o):/app/pedals-firmware/.pio/libdeps/esp32-s3-devkitc-1/Adafruit TinyUSB Library/src/device/usbd.c:478: first defined here
+/home/jules/.platformio/packages/toolchain-xtensa-esp32s3/bin/../lib/gcc/xtensa-esp32s3-elf/8.4.0/../../../../xtensa-esp32s3-elf/bin/ld: /home/jules/.platformio/packages/framework-arduinoespressif32@3.20014.231204/tools/sdk/esp32s3/lib/libarduino_tinyusb.a(usbd.c.obj): in function `tud_connect':
+/Users/ficeto/Desktop/ESP32/ESP32S2/esp32-arduino-lib-builder/components/arduino_tinyusb/tinyusb/src/device/usbd.c:368: multiple definition of `tud_connect'; .pio/build/esp32-s3-devkitc-1/lib773/libAdafruit TinyUSB Library.a(usbd.c.o):/app/pedals-firmware/.pio/libdeps/esp32-s3-devkitc-1/Adafruit TinyUSB Library/src/device/usbd.c:483: first defined here
+/home/jules/.platformio/packages/toolchain-xtensa-esp32s3/bin/../lib/gcc/xtensa-esp32s3-elf/8.4.0/../../../../xtensa-esp32s3-elf/bin/ld: /home/jules/.platformio/packages/framework-arduinoespressif32@3.20014.231204/tools/sdk/esp32s3/lib/libarduino_tinyusb.a(usbd.c.obj): in function `tud_inited':
+/Users/ficeto/Desktop/ESP32/ESP32S2/esp32-arduino-lib-builder/components/arduino_tinyusb/tinyusb/src/device/usbd.c:378: multiple definition of `tud_inited'; .pio/build/esp32-s3-devkitc-1/lib773/libAdafruit TinyUSB Library.a(usbd.c.o):/app/pedals-firmware/.pio/libdeps/esp32-s3-devkitc-1/Adafruit TinyUSB Library/src/device/usbd.c:495: first defined here
+/home/jules/.platformio/packages/toolchain-xtensa-esp32s3/bin/../lib/gcc/xtensa-esp32s3-elf/8.4.0/../../../../xtensa-esp32s3-elf/bin/ld: /home/jules/.platformio/packages/framework-arduinoespressif32@3.20014.231204/tools/sdk/esp32s3/lib/libarduino_tinyusb.a(usbd.c.obj):/Users/ficeto/Desktop/ESP32/ESP32S2/esp32-arduino-lib-builder/components/arduino_tinyusb/tinyusb/src/device/usbd.c:270: multiple definition of `_usbd_qdef'; .pio/build/esp32-s3-devkitc-1/lib773/libAdafruit TinyUSB Library.a(usbd.c.o):/app/pedals-firmware/.pio/libdeps/esp32-s3-devkitc-1/Adafruit TinyUSB Library/src/device/usbd.c:370: first defined here
+/home/jules/.platformio/packages/toolchain-xtensa-esp32s3/bin/../lib/gcc/xtensa-esp32s3-elf/8.4.0/../../../../xtensa-esp32s3-elf/bin/ld: /home/jules/.platformio/packages/framework-arduinoespressif32@3.20014.231204/tools/sdk/esp32s3/lib/libarduino_tinyusb.a(usbd.c.obj): in function `tud_task_event_ready':
+/Users/ficeto/Desktop/ESP32/ESP32S2/esp32-arduino-lib-builder/components/arduino_tinyusb/tinyusb/src/device/usbd.c:449: multiple definition of `tud_task_event_ready'; .pio/build/esp32-s3-devkitc-1/lib773/libAdafruit TinyUSB Library.a(usbd.c.o):/app/pedals-firmware/.pio/libdeps/esp32-s3-devkitc-1/Adafruit TinyUSB Library/src/device/usbd.c:618: first defined here
+/home/jules/.platformio/packages/toolchain-xtensa-esp32s3/bin/../lib/gcc/xtensa-esp32s3-elf/8.4.0/../../../../xtensa-esp32s3-elf/bin/ld: /home/jules/.platformio/packages/framework-arduinoespressif32@3.20014.231204/tools/sdk/esp32s3/lib/libarduino_tinyusb.a(usbd.c.obj): in function `dcd_event_handler':
+/Users/ficeto/Desktop/ESP32/ESP32S2/esp32-arduino-lib-builder/components/arduino_tinyusb/tinyusb/src/device/usbd.c:1081: multiple definition of `dcd_event_handler'; .pio/build/esp32-s3-devkitc-1/lib773/libAdafruit TinyUSB Library.a(usbd.c.o):/app/pedals-firmware/.pio/libdeps/esp32-s3-devkitc-1/Adafruit TinyUSB Library/src/device/usbd.c:1227: first defined here
+/home/jules/.platformio/packages/toolchain-xtensa-esp32s3/bin/../lib/gcc/xtensa-esp32s3-elf/8.4.0/../../../../xtensa-esp32s3-elf/bin/ld: /home/jules/.platformio/packages/framework-arduinoespressif32@3.20014.231204/tools/sdk/esp32s3/lib/libarduino_tinyusb.a(usbd.c.obj): in function `usbd_int_set':
+/Users/ficeto/Desktop/ESP32/ESP32S2/esp32-arduino-lib-builder/components/arduino_tinyusb/tinyusb/src/device/usbd.c:1148: multiple definition of `usbd_int_set'; .pio/build/esp32-s3-devkitc-1/lib773/libAdafruit TinyUSB Library.a(usbd.c.o):/app/pedals-firmware/.pio/libdeps/esp32-s3-devkitc-1/Adafruit TinyUSB Library/src/device/usbd.c:1326: first defined here
+/home/jules/.platformio/packages/toolchain-xtensa-esp32s3/bin/../lib/gcc/xtensa-esp32s3-elf/8.4.0/../../../../xtensa-esp32s3-elf/bin/ld: /home/jules/.platformio/packages/framework-arduinoespressif32@3.20014.231204/tools/sdk/esp32s3/lib/libarduino_tinyusb.a(usbd.c.obj): in function `usbd_defer_func':
+/Users/ficeto/Desktop/ESP32/ESP32S2/esp32-arduino-lib-builder/components/arduino_tinyusb/tinyusb/src/device/usbd.c:1184: multiple definition of `usbd_defer_func'; .pio/build/esp32-s3-devkitc-1/lib773/libAdafruit TinyUSB Library.a(usbd.c.o):/app/pedals-firmware/.pio/libdeps/esp32-s3-devkitc-1/Adafruit TinyUSB Library/src/device/usbd.c:1366: first defined here
+/home/jules/.platformio/packages/toolchain-xtensa-esp32s3/bin/../lib/gcc/xtensa-esp32s3-elf/8.4.0/../../../../xtensa-esp32s3-elf/bin/ld: /home/jules/.platformio/packages/framework-arduinoespressif32@3.20014.231204/tools/sdk/esp32s3/lib/libarduino_tinyusb.a(usbd.c.obj): in function `usbd_edpt_open':
+/Users/ficeto/Desktop/ESP32/ESP32S2/esp32-arduino-lib-builder/components/arduino_tinyusb/tinyusb/src/device/usbd.c:1202: multiple definition of `usbd_edpt_open'; .pio/build/esp32-s3-devkitc-1/lib773/libAdafruit TinyUSB Library.a(usbd.c.o):/app/pedals-firmware/.pio/libdeps/esp32-s3-devkitc-1/Adafruit TinyUSB Library/src/device/usbd.c:1381: first defined here
+/home/jules/.platformio/packages/toolchain-xtensa-esp32s3/bin/../lib/gcc/xtensa-esp32s3-elf/8.4.0/../../../../xtensa-esp32s3-elf/bin/ld: /home/jules/.platformio/packages/framework-arduinoespressif32@3.20014.231204/tools/sdk/esp32s3/lib/libarduino_tinyusb.a(usbd.c.obj): in function `usbd_open_edpt_pair':
+/Users/ficeto/Desktop/ESP32/ESP32S2/esp32-arduino-lib-builder/components/arduino_tinyusb/tinyusb/src/device/usbd.c:1160: multiple definition of `usbd_open_edpt_pair'; .pio/build/esp32-s3-devkitc-1/lib773/libAdafruit TinyUSB Library.a(usbd.c.o):/app/pedals-firmware/.pio/libdeps/esp32-s3-devkitc-1/Adafruit TinyUSB Library/src/device/usbd.c:1343: first defined here
+/home/jules/.platformio/packages/toolchain-xtensa-esp32s3/bin/../lib/gcc/xtensa-esp32s3-elf/8.4.0/../../../../xtensa-esp32s3-elf/bin/ld: /home/jules/.platformio/packages/framework-arduinoespressif32@3.20014.231204/tools/sdk/esp32s3/lib/libarduino_tinyusb.a(usbd.c.obj): in function `usbd_edpt_claim':
+/Users/ficeto/Desktop/ESP32/ESP32S2/esp32-arduino-lib-builder/components/arduino_tinyusb/tinyusb/src/device/usbd.c:1212: multiple definition of `usbd_edpt_claim'; .pio/build/esp32-s3-devkitc-1/lib773/libAdafruit TinyUSB Library.a(usbd.c.o):/app/pedals-firmware/.pio/libdeps/esp32-s3-devkitc-1/Adafruit TinyUSB Library/src/device/usbd.c:1390: first defined here
+/home/jules/.platformio/packages/toolchain-xtensa-esp32s3/bin/../lib/gcc/xtensa-esp32s3-elf/8.4.0/../../../../xtensa-esp32s3-elf/bin/ld: /home/jules/.platformio/packages/framework-arduinoespressif32@3.20014.231204/tools/sdk/esp32s3/lib/libarduino_tinyusb.a(usbd.c.obj): in function `usbd_edpt_release':
+/Users/ficeto/Desktop/ESP32/ESP32S2/esp32-arduino-lib-builder/components/arduino_tinyusb/tinyusb/src/device/usbd.c:1226: multiple definition of `usbd_edpt_release'; .pio/build/esp32-s3-devkitc-1/lib773/libAdafruit TinyUSB Library.a(usbd.c.o):/app/pedals-firmware/.pio/libdeps/esp32-s3-devkitc-1/Adafruit TinyUSB Library/src/device/usbd.c:1403: first defined here
+/home/jules/.platformio/packages/toolchain-xtensa-esp32s3/bin/../lib/gcc/xtensa-esp32s3-elf/8.4.0/../../../../xtensa-esp32s3-elf/bin/ld: /home/jules/.platformio/packages/framework-arduinoespressif32@3.20014.231204/tools/sdk/esp32s3/lib/libarduino_tinyusb.a(usbd.c.obj): in function `usbd_edpt_xfer':
+/Users/ficeto/Desktop/ESP32/ESP32S2/esp32-arduino-lib-builder/components/arduino_tinyusb/tinyusb/src/device/usbd.c:1237: multiple definition of `usbd_edpt_xfer'; .pio/build/esp32-s3-devkitc-1/lib773/libAdafruit TinyUSB Library.a(usbd.c.o):/app/pedals-firmware/.pio/libdeps/esp32-s3-devkitc-1/Adafruit TinyUSB Library/src/device/usbd.c:1413: first defined here
+/home/jules/.platformio/packages/toolchain-xtensa-esp32s3/bin/../lib/gcc/xtensa-esp32s3-elf/8.4.0/../../../../xtensa-esp32s3-elf/bin/ld: /home/jules/.platformio/packages/framework-arduinoespressif32@3.20014.231204/tools/sdk/esp32s3/lib/libarduino_tinyusb.a(usbd.c.obj): in function `usbd_edpt_xfer_fifo':
+/Users/ficeto/Desktop/ESP32/ESP32S2/esp32-arduino-lib-builder/components/arduino_tinyusb/tinyusb/src/device/usbd.c:1274: multiple definition of `usbd_edpt_xfer_fifo'; .pio/build/esp32-s3-devkitc-1/lib773/libAdafruit TinyUSB Library.a(usbd.c.o):/app/pedals-firmware/.pio/libdeps/esp32-s3-devkitc-1/Adafruit TinyUSB Library/src/device/usbd.c:1452: first defined here
+/home/jules/.platformio/packages/toolchain-xtensa-esp32s3/bin/../lib/gcc/xtensa-esp32s3-elf/8.4.0/../../../../xtensa-esp32s3-elf/bin/ld: /home/jules/.platformio/packages/framework-arduinoespressif32@3.20014.231204/tools/sdk/esp32s3/lib/libarduino_tinyusb.a(usbd.c.obj): in function `usbd_edpt_busy':
+/Users/ficeto/Desktop/ESP32/ESP32S2/esp32-arduino-lib-builder/components/arduino_tinyusb/tinyusb/src/device/usbd.c:1305: multiple definition of `usbd_edpt_busy'; .pio/build/esp32-s3-devkitc-1/lib773/libAdafruit TinyUSB Library.a(usbd.c.o):/app/pedals-firmware/.pio/libdeps/esp32-s3-devkitc-1/Adafruit TinyUSB Library/src/device/usbd.c:1480: first defined here
+/home/jules/.platformio/packages/toolchain-xtensa-esp32s3/bin/../lib/gcc/xtensa-esp32s3-elf/8.4.0/../../../../xtensa-esp32s3-elf/bin/ld: /home/jules/.platformio/packages/framework-arduinoespressif32@3.20014.231204/tools/sdk/esp32s3/lib/libarduino_tinyusb.a(usbd.c.obj): in function `usbd_edpt_stall':
+/Users/ficeto/Desktop/ESP32/ESP32S2/esp32-arduino-lib-builder/components/arduino_tinyusb/tinyusb/src/device/usbd.c:1315: multiple definition of `usbd_edpt_stall'; .pio/build/esp32-s3-devkitc-1/lib773/libAdafruit TinyUSB Library.a(usbd.c.o):/app/pedals-firmware/.pio/libdeps/esp32-s3-devkitc-1/Adafruit TinyUSB Library/src/device/usbd.c:1489: first defined here
+/home/jules/.platformio/packages/toolchain-xtensa-esp32s3/bin/../lib/gcc/xtensa-esp32s3-elf/8.4.0/../../../../xtensa-esp32s3-elf/bin/ld: /home/jules/.platformio/packages/framework-arduinoespressif32@3.20014.231204/tools/sdk/esp32s3/lib/libarduino_tinyusb.a(usbd.c.obj): in function `usbd_edpt_clear_stall':
+/Users/ficeto/Desktop/ESP32/ESP32S2/esp32-arduino-lib-builder/components/arduino_tinyusb/tinyusb/src/device/usbd.c:1332: multiple definition of `usbd_edpt_clear_stall'; .pio/build/esp32-s3-devkitc-1/lib773/libAdafruit TinyUSB Library.a(usbd.c.o):/app/pedals-firmware/.pio/libdeps/esp32-s3-devkitc-1/Adafruit TinyUSB Library/src/device/usbd.c:1502: first defined here
+/home/jules/.platformio/packages/toolchain-xtensa-esp32s3/bin/../lib/gcc/xtensa-esp32s3-elf/8.4.0/../../../../xtensa-esp32s3-elf/bin/ld: /home/jules/.platformio/packages/framework-arduinoespressif32@3.20014.231204/tools/sdk/esp32s3/lib/libarduino_tinyusb.a(usbd.c.obj): in function `tud_task_ext':
+/Users/ficeto/Desktop/ESP32/ESP32S2/esp32-arduino-lib-builder/components/arduino_tinyusb/tinyusb/src/device/usbd.c:475: multiple definition of `tud_task_ext'; .pio/build/esp32-s3-devkitc-1/lib773/libAdafruit TinyUSB Library.a(usbd.c.o):/app/pedals-firmware/.pio/libdeps/esp32-s3-devkitc-1/Adafruit TinyUSB Library/src/device/usbd.c:637: first defined here
+/home/jules/.platformio/packages/toolchain-xtensa-esp32s3/bin/../lib/gcc/xtensa-esp32s3-elf/8.4.0/../../../../xtensa-esp32s3-elf/bin/ld: /home/jules/.platformio/packages/framework-arduinoespressif32@3.20014.231204/tools/sdk/esp32s3/lib/libarduino_tinyusb.a(usbd.c.obj): in function `usbd_edpt_stalled':
+/Users/ficeto/Desktop/ESP32/ESP32S2/esp32-arduino-lib-builder/components/arduino_tinyusb/tinyusb/src/device/usbd.c:1349: multiple definition of `usbd_edpt_stalled'; .pio/build/esp32-s3-devkitc-1/lib773/libAdafruit TinyUSB Library.a(usbd.c.o):/app/pedals-firmware/.pio/libdeps/esp32-s3-devkitc-1/Adafruit TinyUSB Library/src/device/usbd.c:1515: first defined here
+/home/jules/.platformio/packages/toolchain-xtensa-esp32s3/bin/../lib/gcc/xtensa-esp32s3-elf/8.4.0/../../../../xtensa-esp32s3-elf/bin/ld: /home/jules/.platformio/packages/framework-arduinoespressif32@3.20014.231204/tools/sdk/esp32s3/lib/libarduino_tinyusb.a(usbd.c.obj): in function `usbd_edpt_close':
+/Users/ficeto/Desktop/ESP32/ESP32S2/esp32-arduino-lib-builder/components/arduino_tinyusb/tinyusb/src/device/usbd.c:1365: multiple definition of `usbd_edpt_close'; .pio/build/esp32-s3-devkitc-1/lib773/libAdafruit TinyUSB Library.a(usbd.c.o):/app/pedals-firmware/.pio/libdeps/esp32-s3-devkitc-1/Adafruit TinyUSB Library/src/device/usbd.c:1528: first defined here
+/home/jules/.platformio/packages/toolchain-xtensa-esp32s3/bin/../lib/gcc/xtensa-esp32s3-elf/8.4.0/../../../../xtensa-esp32s3-elf/bin/ld: /home/jules/.platformio/packages/framework-arduinoespressif32@3.20014.231204/tools/sdk/esp32s3/lib/libarduino_tinyusb.a(usbd.c.obj): in function `usbd_sof_enable':
+/Users/ficeto/Desktop/ESP32/ESP32S2/esp32-arduino-lib-builder/components/arduino_tinyusb/tinyusb/src/device/usbd.c:1383: multiple definition of `usbd_sof_enable'; .pio/build/esp32-s3-devkitc-1/lib773/libAdafruit TinyUSB Library.a(usbd.c.o):/app/pedals-firmware/.pio/libdeps/esp32-s3-devkitc-1/Adafruit TinyUSB Library/src/device/usbd.c:1549: first defined here
+/home/jules/.platformio/packages/toolchain-xtensa-esp32s3/bin/../lib/gcc/xtensa-esp32s3-elf/8.4.0/../../../../xtensa-esp32s3-elf/bin/ld: /home/jules/.platformio/packages/framework-arduinoespressif32@3.20014.231204/tools/sdk/esp32s3/lib/libarduino_tinyusb.a(usbd.c.obj): in function `usbd_edpt_iso_alloc':
+/Users/ficeto/Desktop/ESP32/ESP32S2/esp32-arduino-lib-builder/components/arduino_tinyusb/tinyusb/src/device/usbd.c:1392: multiple definition of `usbd_edpt_iso_alloc'; .pio/build/esp32-s3-devkitc-1/lib773/libAdafruit TinyUSB Library.a(usbd.c.o):/app/pedals-firmware/.pio/libdeps/esp32-s3-devkitc-1/Adafruit TinyUSB Library/src/device/usbd.c:1566: first defined here
+/home/jules/.platformio/packages/toolchain-xtensa-esp32s3/bin/../lib/gcc/xtensa-esp32s3-elf/8.4.0/../../../../xtensa-esp32s3-elf/bin/ld: /home/jules/.platformio/packages/framework-arduinoespressif32@3.20014.231204/tools/sdk/esp32s3/lib/libarduino_tinyusb.a(usbd.c.obj): in function `usbd_edpt_iso_activate':
+/Users/ficeto/Desktop/ESP32/ESP32S2/esp32-arduino-lib-builder/components/arduino_tinyusb/tinyusb/src/device/usbd.c:1402: multiple definition of `usbd_edpt_iso_activate'; .pio/build/esp32-s3-devkitc-1/lib773/libAdafruit TinyUSB Library.a(usbd.c.o):/app/pedals-firmware/.pio/libdeps/esp32-s3-devkitc-1/Adafruit TinyUSB Library/src/device/usbd.c:1578: first defined here
+collect2: error: ld returned 1 exit status
+*** [.pio/build/esp32-s3-devkitc-1/firmware.elf] Error 1
+========================= [FAILED] Took 67.70 seconds =========================

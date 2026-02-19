@@ -1,0 +1,49 @@
+Processing esp32-s3-devkitc-1 (platform: espressif32@6.5.0; board: esp32-s3-devkitc-1; framework: arduino)
+--------------------------------------------------------------------------------
+Verbose mode can be enabled via `-v, --verbose` option
+CONFIGURATION: https://docs.platformio.org/page/boards/espressif32/esp32-s3-devkitc-1.html
+PLATFORM: Espressif 32 (6.5.0) > Espressif ESP32-S3-DevKitC-1-N8 (8 MB QD, No PSRAM)
+HARDWARE: ESP32S3 240MHz, 320KB RAM, 8MB Flash
+DEBUG: Current (esp-builtin) On-board (esp-builtin) External (cmsis-dap, esp-bridge, esp-prog, iot-bus-jtag, jlink, minimodule, olimex-arm-usb-ocd, olimex-arm-usb-ocd-h, olimex-arm-usb-tiny-h, olimex-jtag-tiny, tumpa)
+PACKAGES:
+ - framework-arduinoespressif32 @ 3.20014.231204 (2.0.14)
+ - tool-esptoolpy @ 1.40501.0 (4.5.1)
+ - toolchain-riscv32-esp @ 8.4.0+2021r2-patch5
+ - toolchain-xtensa-esp32s3 @ 8.4.0+2021r2-patch5
+LDF: Library Dependency Finder -> https://bit.ly/configure-pio-ldf
+LDF Modes: Finder ~ chain, Compatibility ~ soft
+Found 33 compatible libraries
+Scanning dependencies...
+Dependency Graph
+|-- Preferences @ 2.0.0
+Building in release mode
+Compiling .pio/build/esp32-s3-devkitc-1/src/main.cpp.o
+Building .pio/build/esp32-s3-devkitc-1/bootloader.bin
+Generating partitions .pio/build/esp32-s3-devkitc-1/partitions.bin
+<command-line>: warning: "ARDUINO_USB_MODE" redefined
+<command-line>: note: this is the location of the previous definition
+esptool.py v4.5.1
+Creating esp32s3 image...
+Merged 1 ELF section
+Successfully created esp32s3 image.
+Compiling .pio/build/esp32-s3-devkitc-1/lib96f/Preferences/Preferences.cpp.o
+<command-line>: warning: "ARDUINO_USB_MODE" redefined
+<command-line>: note: this is the location of the previous definition
+src/main.cpp:2:10: fatal error: Adafruit_TinyUSB.h: No such file or directory
+
+**************************************************************************
+* Looking for Adafruit_TinyUSB.h dependency? Check our library registry!
+*
+* CLI  > platformio lib search "header:Adafruit_TinyUSB.h"
+* Web  > https://registry.platformio.org/search?q=header:Adafruit_TinyUSB.h
+*
+**************************************************************************
+
+ #include <Adafruit_TinyUSB.h>
+          ^~~~~~~~~~~~~~~~~~~~
+compilation terminated.
+Compiling .pio/build/esp32-s3-devkitc-1/FrameworkArduino/Esp.cpp.o
+*** [.pio/build/esp32-s3-devkitc-1/src/main.cpp.o] Error 1
+<command-line>: warning: "ARDUINO_USB_MODE" redefined
+<command-line>: note: this is the location of the previous definition
+========================== [FAILED] Took 2.39 seconds ==========================

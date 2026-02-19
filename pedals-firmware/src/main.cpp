@@ -1,10 +1,9 @@
 #include <Arduino.h>
-#include <Adafruit_TinyUSB.h>
+#include <USB.h>
+#include <USBHID.h>
 #include <Preferences.h>
 
-// Pins (Adjust as needed for your specific wiring)
-// Using GPIO 1, 2, 3 as requested/assumed. Note: Check if these are ADC1 on S3.
-// ESP32-S3: ADC1_CH0 is GPIO 1, ADC1_CH1 is GPIO 2, ADC1_CH2 is GPIO 3.
+// Pins
 #define THROTTLE_PIN 1
 #define BRAKE_PIN 2
 #define CLUTCH_PIN 3
@@ -15,7 +14,7 @@
 
 // HID Report Descriptor: 16-bit X, Y, Z
 // Usage Page (Generic Desktop), Usage (Joystick)
-uint8_t const desc_hid_report[] = {
+static const uint8_t desc_hid_report[] = {
   0x05, 0x01,        // Usage Page (Generic Desktop Ctrls)
   0x09, 0x04,        // Usage (Joystick)
   0xA1, 0x01,        // Collection (Application)
@@ -41,7 +40,37 @@ struct __attribute__((packed)) HidReport {
   uint16_t z;
 };
 
-Adafruit_USBD_HID usb_hid;
+USBHID HID;
+
+class CustomGamepad : public USBHIDDevice {
+public:
+  CustomGamepad(void) {
+    static bool initialized = false;
+    if(!initialized){
+      initialized = true;
+      HID.addDevice(this, sizeof(desc_hid_report));
+    }
+  }
+
+  void begin(void) {
+    HID.begin();
+  }
+
+  uint16_t _onGetDescriptor(uint8_t* buffer) {
+    memcpy(buffer, desc_hid_report, sizeof(desc_hid_report));
+    return sizeof(desc_hid_report);
+  }
+
+  void _onOutput(uint8_t reportId, const uint8_t* data, uint16_t len) {
+    // Not used for input-only device
+  }
+
+  bool sendReport(HidReport* report) {
+    return HID.SendReport(0, report, sizeof(HidReport));
+  }
+};
+
+CustomGamepad gamepad;
 Preferences prefs;
 
 struct PedalConfig {
@@ -55,7 +84,6 @@ uint16_t current_raw[3];
 
 void loadConfig() {
   prefs.begin("pedals", true); // Read-only
-  // If not exists, will return default
   configs[0].min_val = prefs.getUShort("p0_min", DEFAULT_MIN);
   configs[0].max_val = prefs.getUShort("p0_max", DEFAULT_MAX);
   configs[1].min_val = prefs.getUShort("p1_min", DEFAULT_MIN);
@@ -77,17 +105,12 @@ void saveConfig() {
 }
 
 uint16_t processPedal(uint16_t raw, uint16_t min_v, uint16_t max_v) {
-    if (min_v == max_v) return 0; // Avoid divide by zero
-
+    if (min_v == max_v) return 0;
     long val = raw;
     if (min_v < max_v) {
         val = constrain(val, min_v, max_v);
         return map(val, min_v, max_v, 0, 65535);
     } else {
-        // Inverted (e.g. min=4000, max=100)
-        // If raw=3000 (pressed partly), we want it mapped.
-        // constrain: if raw > min (4000) -> 4000. if raw < max (100) -> 100.
-        // But constrain macro fails for inverted range logic if used blindly.
         if (val > min_v) val = min_v;
         if (val < max_v) val = max_v;
         return map(val, min_v, max_v, 0, 65535);
@@ -97,17 +120,12 @@ uint16_t processPedal(uint16_t raw, uint16_t min_v, uint16_t max_v) {
 void setup() {
   Serial.begin(115200);
 
-  // Setup Pins
   for(int i=0; i<3; i++) pinMode(pins[i], INPUT);
 
   loadConfig();
 
-  usb_hid.setPollInterval(2);
-  usb_hid.setReportDescriptor(desc_hid_report, sizeof(desc_hid_report));
-  usb_hid.begin();
-
-  // Wait for USB to be ready
-  // while( !TinyUSBDevice.mounted() ) delay(1);
+  gamepad.begin();
+  USB.begin();
 }
 
 void loop() {
@@ -118,30 +136,25 @@ void loop() {
     current_raw[i] = sum / 16;
   }
 
-  if (usb_hid.ready()) {
-    HidReport report;
-    report.x = processPedal(current_raw[0], configs[0].min_val, configs[0].max_val);
-    report.y = processPedal(current_raw[1], configs[1].min_val, configs[1].max_val);
-    report.z = processPedal(current_raw[2], configs[2].min_val, configs[2].max_val);
+  HidReport report;
+  report.x = processPedal(current_raw[0], configs[0].min_val, configs[0].max_val);
+  report.y = processPedal(current_raw[1], configs[1].min_val, configs[1].max_val);
+  report.z = processPedal(current_raw[2], configs[2].min_val, configs[2].max_val);
 
-    usb_hid.sendReport(0, &report, sizeof(report));
-  }
+  gamepad.sendReport(&report);
 
   // Serial Protocol
   if (Serial.available()) {
     String cmd = Serial.readStringUntil('\n');
     cmd.trim();
     if (cmd == "READ") {
-      // Return raw values: "RAW:123,456,789"
       Serial.printf("RAW:%d,%d,%d\n", current_raw[0], current_raw[1], current_raw[2]);
     } else if (cmd == "GET_CONFIG") {
-      // Return config: "CONF:min:max,min:max,min:max"
       Serial.printf("CONF:%d:%d,%d:%d,%d:%d\n",
         configs[0].min_val, configs[0].max_val,
         configs[1].min_val, configs[1].max_val,
         configs[2].min_val, configs[2].max_val);
     } else if (cmd.startsWith("SET")) {
-      // SET idx min max
       int idx, min_v, max_v;
       if (sscanf(cmd.c_str(), "SET %d %d %d", &idx, &min_v, &max_v) == 3) {
         if (idx >= 0 && idx < 3) {
@@ -155,4 +168,6 @@ void loop() {
       Serial.println("SAVED");
     }
   }
+
+  delay(2); // Small delay to prevent flooding if loop is too fast (though HID sends interval)
 }
