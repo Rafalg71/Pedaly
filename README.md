@@ -1,51 +1,52 @@
-# SimRacing Pedals (ESP32-S3)
+# Pedały SimRacing (ESP32-S3)
 
-Custom SimRacing pedals using an ESP32-S3. Recognized as a USB Joystick.
+Niestandardowe pedały SimRacing używające układu ESP32-S3. Wykrywane jako standardowy joystick USB.
 
-## Features
-- **3 Pedals:** Throttle, Brake, Clutch.
-- **Easy Config:** Use the PC app to set Min/Max ranges.
-- **High Res:** 16-bit precision.
-- **Save Settings:** Remembers calibration after restart.
+## Funkcje
+- **3 Pedały:** Gaz, Hamulec, Sprzęgło.
+- **Łatwa Konfiguracja:** Użyj aplikacji PC do ustawienia zakresów Min/Max oraz martwych stref (deadzones).
+- **Wysoka Rozdzielczość:** 16-bitowa precyzja.
+- **Zapis Ustawień:** Pamięta kalibrację po restarcie.
 
-## Hardware
+## Wymagany Sprzęt
 - ESP32-S3 DevKitC-1
-- 3x 10k Potentiometers
-- USB Cable
+- 3x Potencjometr 10k
+- Kabel USB
 
-## Wiring
-| Pedal    | ESP32-S3 Pin |
+## Podłączenie (Wiring)
+| Pedał    | Pin ESP32-S3 |
 |----------|--------------|
-| Throttle | GPIO 1       |
-| Brake    | GPIO 2       |
-| Clutch   | GPIO 3       |
+| Gaz      | GPIO 1       |
+| Hamulec  | GPIO 2       |
+| Sprzęgło | GPIO 3       |
 
-**Note:** Connect Potentiometer Wiper to the GPIO pin, and ends to 3.3V and GND.
+**Uwaga:** Środkowy pin potencjometru (Wiper) podłącz do pinu GPIO, a skrajne do 3.3V i GND.
 
-## Installation (Easy Way)
+## Instalacja (Łatwy Sposób)
 
-### 1. Flash Firmware
-1.  Download the latest Release (including `firmware.bin` in the `bin` folder).
-2.  Install [Python](https://www.python.org/downloads/).
-3.  Connect your ESP32-S3 via USB.
-    *   *If not recognized, hold BOOT while plugging in.*
-4.  Run `flash_firmware.bat` (Windows) or `./flash_firmware.sh` (Mac/Linux).
-5.  Follow the prompts to enter your COM port (e.g., `COM3` or `/dev/ttyACM0`).
+### 1. Wgrywanie Firmware
+1.  Pobierz najnowszą wersję (zawierającą `firmware.bin` w folderze `bin`).
+2.  Zainstaluj [Python](https://www.python.org/downloads/).
+3.  Podłącz ESP32-S3 przez USB.
+    *   *Jeśli nie jest wykrywane, przytrzymaj przycisk BOOT podczas podłączania.*
+4.  Uruchom `flash_firmware.bat` (Windows) lub `./flash_firmware.sh` (Mac/Linux).
+5.  Postępuj zgodnie z instrukcjami, aby wpisać port COM (np. `COM3` lub `/dev/ttyACM0`).
 
-### 2. Configure Pedals
-1.  Run `run_configurator.bat` (Windows) or:
+### 2. Konfiguracja Pedałów
+1.  Uruchom `run_configurator.bat` (Windows) lub:
     ```bash
     python pedals-configurator/configurator.py
     ```
-2.  Select your COM port and click **Connect**.
-3.  Calibrate each pedal:
-    -   Click **Set** next to Min (released).
-    -   Press pedal fully, click **Set** next to Max (pressed).
-4.  Click **Save Calibration**.
+2.  Wybierz port COM i kliknij **Connect** (Połącz).
+3.  Kalibracja każdego pedału:
+    -   Kliknij **Set** obok Min (puszczony).
+    -   Wciśnij pedał do końca, kliknij **Set** obok Max (wciśnięty).
+    -   (Opcjonalnie) Ustaw martwe strefy (**Deadzone**) w % dla początku i końca zakresu.
+4.  Kliknij **Save Calibration** (Zapisz Kalibrację).
 
-## Advanced Setup (Developer)
-If you want to modify the code:
-1.  Install [PlatformIO](https://platformio.org/).
-2.  Open the `pedals-firmware` folder.
-3.  Edit `src/main.cpp` (change pins, logic, etc.).
-4.  Build and Upload directly from PlatformIO.
+## Zaawansowana Konfiguracja (Dla Programistów)
+Jeśli chcesz modyfikować kod:
+1.  Zainstaluj [PlatformIO](https://platformio.org/).
+2.  Otwórz folder `pedals-firmware`.
+3.  Edytuj `src/main.cpp` (zmień piny, logikę, itp.).
+4.  Skompiluj i wgraj (Build and Upload) bezpośrednio z PlatformIO.

@@ -1,11 +1,11 @@
-This directory contains the pre-compiled firmware for the ESP32-S3 Pedals.
+To jest folder zawierający skompilowane firmware dla pedałów ESP32-S3.
 
-firmware.bin: The application firmware.
+firmware.bin: Firmware aplikacji.
 
-To flash:
-Run 'flash_firmware.bat' (Windows) or 'flash_firmware.sh' (Linux/Mac) in the root directory.
+Aby wgrać:
+Uruchom 'flash_firmware.bat' (Windows) lub 'flash_firmware.sh' (Linux/Mac) w głównym katalogu.
 
-To build manually:
-1. Open pedals-firmware in PlatformIO
-2. Run 'Build'
-3. The binary will be in .pio/build/esp32-s3-devkitc-1/firmware.bin
+Aby skompilować ręcznie:
+1. Otwórz pedals-firmware w PlatformIO
+2. Kliknij 'Build'
+3. Plik binarny znajdzie się w .pio/build/esp32-s3-devkitc-1/firmware.bin

@@ -23,7 +23,7 @@ class ConfiguratorApp(ROOT_CLASS):
             super().__init__()
 
         self.title("SimRacing Pedals Configurator")
-        self.geometry("800x500")
+        self.geometry("900x600")
 
         self.serial_port = None
         self.is_connected = False
@@ -31,7 +31,7 @@ class ConfiguratorApp(ROOT_CLASS):
         self.lock = threading.Lock()
 
         # UI State
-        self.pedal_vars = [] # Holds (raw_var, min_var, max_var) for each pedal
+        self.pedal_vars = [] # Holds dict of vars for each pedal
 
         self.create_ui()
 
@@ -57,6 +57,9 @@ class ConfiguratorApp(ROOT_CLASS):
         self.btn_connect = ttk.Button(conn_frame, text="Connect", command=self.toggle_connect)
         self.btn_connect.pack(side='left', padx=5)
 
+        self.lbl_status = ttk.Label(conn_frame, text="Disconnected", foreground="red")
+        self.lbl_status.pack(side='left', padx=10)
+
         # Main Frame: Pedals
         main_frame = ttk.LabelFrame(self, text="Pedal Calibration", padding=10)
         main_frame.pack(fill='both', expand=True, padx=10, pady=10)
@@ -64,43 +67,55 @@ class ConfiguratorApp(ROOT_CLASS):
         pedal_names = ["Throttle", "Brake", "Clutch"]
 
         for idx, name in enumerate(pedal_names):
-            row_frame = ttk.Frame(main_frame, padding=5)
+            row_frame = ttk.Frame(main_frame, padding=5, borderwidth=1, relief="solid")
             row_frame.pack(fill='x', pady=5)
 
             # Variables
             raw_var = tk.IntVar(value=0)
             min_var = tk.StringVar(value="0")
             max_var = tk.StringVar(value="4095")
+            dz_start_var = tk.StringVar(value="0")
+            dz_end_var = tk.StringVar(value="0")
+
             self.pedal_vars.append({
                 "raw": raw_var,
                 "min": min_var,
                 "max": max_var,
+                "dz_start": dz_start_var,
+                "dz_end": dz_end_var,
                 "name": name,
                 "idx": idx
             })
 
-            # UI Elements
-            # Name
-            ttk.Label(row_frame, text=name, width=10, font=('Segoe UI', 12, 'bold')).pack(side='left', padx=5)
+            # Row Layout
+            # Header
+            ttk.Label(row_frame, text=name, width=10, font=('Segoe UI', 12, 'bold')).grid(row=0, column=0, rowspan=2, padx=5)
 
             # Progress Bar
-            pb = ttk.Progressbar(row_frame, orient='horizontal', length=300, mode='determinate', maximum=4095, variable=raw_var)
-            pb.pack(side='left', padx=5)
+            pb = ttk.Progressbar(row_frame, orient='horizontal', length=400, mode='determinate', maximum=4095, variable=raw_var)
+            pb.grid(row=0, column=1, columnspan=6, padx=5, pady=5, sticky='ew')
+            ttk.Label(row_frame, textvariable=raw_var, width=5).grid(row=0, column=7, padx=5)
 
-            # Raw Value Label
-            ttk.Label(row_frame, textvariable=raw_var, width=5).pack(side='left', padx=5)
+            # Controls Row
+            # Min
+            ttk.Label(row_frame, text="Min:").grid(row=1, column=1, sticky='e')
+            ttk.Entry(row_frame, textvariable=min_var, width=6).grid(row=1, column=2)
+            ttk.Button(row_frame, text="Set", command=lambda i=idx: self.set_current_as_min(i), width=4).grid(row=1, column=3, padx=2)
 
-            # Min Config
-            ttk.Label(row_frame, text="Min (Released):").pack(side='left', padx=5)
-            entry_min = ttk.Entry(row_frame, textvariable=min_var, width=6)
-            entry_min.pack(side='left', padx=2)
-            ttk.Button(row_frame, text="Set", command=lambda i=idx: self.set_current_as_min(i), width=4).pack(side='left', padx=2)
+            # Max
+            ttk.Label(row_frame, text="Max:").grid(row=1, column=4, sticky='e')
+            ttk.Entry(row_frame, textvariable=max_var, width=6).grid(row=1, column=5)
+            ttk.Button(row_frame, text="Set", command=lambda i=idx: self.set_current_as_max(i), width=4).grid(row=1, column=6, padx=2)
 
-            # Max Config
-            ttk.Label(row_frame, text="Max (Pressed):").pack(side='left', padx=5)
-            entry_max = ttk.Entry(row_frame, textvariable=max_var, width=6)
-            entry_max.pack(side='left', padx=2)
-            ttk.Button(row_frame, text="Set", command=lambda i=idx: self.set_current_as_max(i), width=4).pack(side='left', padx=2)
+            # Deadzones
+            dz_frame = ttk.Frame(row_frame)
+            dz_frame.grid(row=1, column=7, columnspan=2, padx=10)
+
+            ttk.Label(dz_frame, text="DZ Start (%):").pack(side='left')
+            ttk.Entry(dz_frame, textvariable=dz_start_var, width=4).pack(side='left', padx=2)
+
+            ttk.Label(dz_frame, text="End (%):").pack(side='left', padx=(5,0))
+            ttk.Entry(dz_frame, textvariable=dz_end_var, width=4).pack(side='left', padx=2)
 
         # Bottom Frame: Actions
         action_frame = ttk.Frame(self, padding=10)
@@ -108,7 +123,9 @@ class ConfiguratorApp(ROOT_CLASS):
 
         ttk.Button(action_frame, text="Read Config", command=self.send_get_config).pack(side='left', padx=10)
         ttk.Button(action_frame, text="Save Calibration", command=self.save_config, style='success.TButton' if THEME else None).pack(side='right', padx=10)
-        ttk.Label(action_frame, text="Note: 'Set' updates the fields locally. Click 'Save Calibration' to apply to device.").pack(side='right', padx=10)
+
+        self.lbl_save_status = ttk.Label(action_frame, text="", foreground="green")
+        self.lbl_save_status.pack(side='right', padx=10)
 
     def refresh_ports(self):
         ports = sorted([p.device for p in serial.tools.list_ports.comports()])
@@ -125,6 +142,7 @@ class ConfiguratorApp(ROOT_CLASS):
                 self.serial_port = serial.Serial(port, 115200, timeout=1)
                 self.is_connected = True
                 self.btn_connect.config(text="Disconnect", style='danger.TButton' if THEME else None)
+                self.lbl_status.config(text="Connected", foreground="green")
                 # Request config immediately
                 self.send_get_config()
             except Exception as e:
@@ -141,6 +159,7 @@ class ConfiguratorApp(ROOT_CLASS):
                 pass
             self.serial_port = None
         self.btn_connect.config(text="Connect", style='success.TButton' if THEME else None)
+        self.lbl_status.config(text="Disconnected", foreground="red")
 
     def serial_reader_loop(self):
         while True:
@@ -161,7 +180,7 @@ class ConfiguratorApp(ROOT_CLASS):
     def loop_read_data(self):
         if self.is_connected:
             self.send_command("READ")
-        self.after(50, self.loop_read_data)
+        self.after(100, self.loop_read_data) # Slower poll
 
     def send_command(self, cmd):
         if self.is_connected and self.serial_port:
@@ -180,27 +199,40 @@ class ConfiguratorApp(ROOT_CLASS):
             try:
                 mn = int(p['min'].get())
                 mx = int(p['max'].get())
+                dzs = int(p['dz_start'].get())
+                dze = int(p['dz_end'].get())
+
                 if mn == mx:
-                    messagebox.showerror("Validation Error", f"Pedal {p['name']} has Min equal to Max. This is not allowed.")
+                    messagebox.showerror("Validation Error", f"Pedal {p['name']}: Min cannot equal Max.")
                     return
+                if dzs < 0 or dzs > 100 or dze < 0 or dze > 100:
+                     messagebox.showerror("Validation Error", f"Pedal {p['name']}: Deadzone must be 0-100%.")
+                     return
+                if dzs + dze >= 100:
+                     messagebox.showerror("Validation Error", f"Pedal {p['name']}: Total deadzone cannot exceed 100%.")
+                     return
+
             except ValueError:
                 messagebox.showerror("Validation Error", f"Invalid number format for {p['name']}.")
                 return
 
         # Send SET commands for each pedal
+        # SET idx min max dz_start dz_end
         for p in self.pedal_vars:
             idx = p['idx']
             mn = p['min'].get()
             mx = p['max'].get()
-            self.send_command(f"SET {idx} {mn} {mx}")
-            time.sleep(0.05) # Small delay to ensure processing
+            dzs = p['dz_start'].get()
+            dze = p['dz_end'].get()
+            self.send_command(f"SET {idx} {mn} {mx} {dzs} {dze}")
+            time.sleep(0.05)
 
         # Send SAVE
         self.send_command("SAVE")
-        messagebox.showinfo("Saved", "Calibration saved to device.")
+        self.lbl_save_status.config(text="Saving...")
+        self.after(2000, lambda: self.lbl_save_status.config(text=""))
 
     def set_current_as_min(self, idx):
-        # Get current raw value
         val = self.pedal_vars[idx]['raw'].get()
         self.pedal_vars[idx]['min'].set(str(val))
 
@@ -212,7 +244,6 @@ class ConfiguratorApp(ROOT_CLASS):
         while not self.msg_queue.empty():
             msg = self.msg_queue.get()
             if msg.startswith("RAW:"):
-                # RAW:123,456,789
                 try:
                     parts = msg[4:].split(',')
                     if len(parts) == 3:
@@ -221,17 +252,22 @@ class ConfiguratorApp(ROOT_CLASS):
                 except ValueError:
                     pass
             elif msg.startswith("CONF:"):
-                # CONF:min:max,min:max,min:max
+                # CONF:min:max:dzs:dze, ...
                 try:
                     parts = msg[5:].split(',')
                     if len(parts) == 3:
                         for i in range(3):
+                            # min:max:dzs:dze
                             p_parts = parts[i].split(':')
-                            if len(p_parts) == 2:
+                            if len(p_parts) == 4:
                                 self.pedal_vars[i]['min'].set(p_parts[0])
                                 self.pedal_vars[i]['max'].set(p_parts[1])
+                                self.pedal_vars[i]['dz_start'].set(p_parts[2])
+                                self.pedal_vars[i]['dz_end'].set(p_parts[3])
                 except ValueError:
                     pass
+            elif msg == "SAVED":
+                self.lbl_save_status.config(text="Saved ✓")
 
         self.after(50, self.process_queue)
 

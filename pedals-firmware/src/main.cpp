@@ -11,9 +11,9 @@
 // Calibration Defaults
 #define DEFAULT_MIN 0
 #define DEFAULT_MAX 4095
+#define DEFAULT_DZ 0 // 0%
 
 // HID Report Descriptor: 16-bit X, Y, Z
-// Usage Page (Generic Desktop), Usage (Joystick)
 static const uint8_t desc_hid_report[] = {
   0x05, 0x01,        // Usage Page (Generic Desktop Ctrls)
   0x09, 0x04,        // Usage (Joystick)
@@ -33,7 +33,6 @@ static const uint8_t desc_hid_report[] = {
   0xC0               // End Collection
 };
 
-// Report Structure
 struct __attribute__((packed)) HidReport {
   uint16_t x;
   uint16_t y;
@@ -61,9 +60,7 @@ public:
     return sizeof(desc_hid_report);
   }
 
-  void _onOutput(uint8_t reportId, const uint8_t* data, uint16_t len) {
-    // Not used for input-only device
-  }
+  void _onOutput(uint8_t reportId, const uint8_t* data, uint16_t len) {}
 
   bool sendReport(HidReport* report) {
     return HID.SendReport(0, report, sizeof(HidReport));
@@ -76,49 +73,94 @@ Preferences prefs;
 struct PedalConfig {
   uint16_t min_val;
   uint16_t max_val;
+  uint8_t dz_start; // %
+  uint8_t dz_end;   // %
 };
 
 PedalConfig configs[3];
 int pins[3] = {THROTTLE_PIN, BRAKE_PIN, CLUTCH_PIN};
 uint16_t current_raw[3];
+String inputString = "";         // a String to hold incoming data
+bool stringComplete = false;  // whether the string is complete
 
 void loadConfig() {
   prefs.begin("pedals", true); // Read-only
-  configs[0].min_val = prefs.getUShort("p0_min", DEFAULT_MIN);
-  configs[0].max_val = prefs.getUShort("p0_max", DEFAULT_MAX);
-  configs[1].min_val = prefs.getUShort("p1_min", DEFAULT_MIN);
-  configs[1].max_val = prefs.getUShort("p1_max", DEFAULT_MAX);
-  configs[2].min_val = prefs.getUShort("p2_min", DEFAULT_MIN);
-  configs[2].max_val = prefs.getUShort("p2_max", DEFAULT_MAX);
+  for(int i=0; i<3; i++) {
+    char key[10];
+    sprintf(key, "p%d_min", i);
+    configs[i].min_val = prefs.getUShort(key, DEFAULT_MIN);
+    sprintf(key, "p%d_max", i);
+    configs[i].max_val = prefs.getUShort(key, DEFAULT_MAX);
+    sprintf(key, "p%d_ds", i);
+    configs[i].dz_start = prefs.getUChar(key, DEFAULT_DZ);
+    sprintf(key, "p%d_de", i);
+    configs[i].dz_end = prefs.getUChar(key, DEFAULT_DZ);
+  }
   prefs.end();
 }
 
 void saveConfig() {
   prefs.begin("pedals", false); // Read-write
-  prefs.putUShort("p0_min", configs[0].min_val);
-  prefs.putUShort("p0_max", configs[0].max_val);
-  prefs.putUShort("p1_min", configs[1].min_val);
-  prefs.putUShort("p1_max", configs[1].max_val);
-  prefs.putUShort("p2_min", configs[2].min_val);
-  prefs.putUShort("p2_max", configs[2].max_val);
+  for(int i=0; i<3; i++) {
+    char key[10];
+    sprintf(key, "p%d_min", i);
+    prefs.putUShort(key, configs[i].min_val);
+    sprintf(key, "p%d_max", i);
+    prefs.putUShort(key, configs[i].max_val);
+    sprintf(key, "p%d_ds", i);
+    prefs.putUChar(key, configs[i].dz_start);
+    sprintf(key, "p%d_de", i);
+    prefs.putUChar(key, configs[i].dz_end);
+  }
   prefs.end();
 }
 
-uint16_t processPedal(uint16_t raw, uint16_t min_v, uint16_t max_v) {
-    if (min_v == max_v) return 0;
+uint16_t processPedal(uint16_t raw, PedalConfig* cfg) {
+    long min_v = cfg->min_val;
+    long max_v = cfg->max_val;
     long val = raw;
-    if (min_v < max_v) {
-        val = constrain(val, min_v, max_v);
-        return map(val, min_v, max_v, 0, 65535);
-    } else {
-        if (val > min_v) val = min_v;
-        if (val < max_v) val = max_v;
-        return map(val, min_v, max_v, 0, 65535);
+
+    if (min_v == max_v) return 0;
+
+    // Calculate effective range with deadzones
+    long range = max_v - min_v;
+    long start_v, end_v;
+
+    // Normal or Inverted Logic handled by map() if we define bounds correctly
+    // But deadzones are relative to the "physical travel".
+    // Let's normalize to 0-100% first relative to raw min/max, then apply deadzone, then scale.
+
+    // Simpler: Adjust min_v and max_v based on percentage
+    // If Normal: min < max. range is positive.
+    // If Inverted: min > max. range is negative.
+
+    start_v = min_v + (range * cfg->dz_start / 100);
+    end_v = max_v - (range * cfg->dz_end / 100);
+
+    // Apply constraints based on new start/end
+    if (min_v < max_v) { // Normal
+        if (start_v >= end_v) return 0; // Config Error or overlap
+        val = constrain(val, start_v, end_v);
+        return map(val, start_v, end_v, 0, 65535);
+    } else { // Inverted
+        // e.g. min=4000, max=0. range=-4000.
+        // dz_start=10%. start = 4000 + (-400) = 3600.
+        // dz_end=10%. end = 0 - (-400) = 400.
+        // map(val, 3600, 400, 0, 65535).
+        // if val=3800 (released), it's > start. constrain to start.
+        if (start_v <= end_v) return 0; // Config Error
+
+        // Custom constrain for inverted range
+        if (val > start_v) val = start_v;
+        if (val < end_v) val = end_v;
+
+        return map(val, start_v, end_v, 0, 65535);
     }
 }
 
 void setup() {
   Serial.begin(115200);
+  inputString.reserve(200);
 
   for(int i=0; i<3; i++) pinMode(pins[i], INPUT);
 
@@ -132,42 +174,63 @@ void loop() {
   // Read and Smooth
   for(int i=0; i<3; i++) {
     long sum = 0;
-    for(int k=0; k<16; k++) sum += analogRead(pins[i]);
-    current_raw[i] = sum / 16;
+    // Reduce samples to 8 for speed
+    for(int k=0; k<8; k++) sum += analogRead(pins[i]);
+    current_raw[i] = sum / 8;
   }
 
-  HidReport report;
-  report.x = processPedal(current_raw[0], configs[0].min_val, configs[0].max_val);
-  report.y = processPedal(current_raw[1], configs[1].min_val, configs[1].max_val);
-  report.z = processPedal(current_raw[2], configs[2].min_val, configs[2].max_val);
+  // USB.isConnected() might not be available in all core versions or specific modes.
+  // TinyUSB usually handles this internally, but for built-in USBHID, we can check if it's mounted?
+  // Actually, sending report usually returns false if not connected.
+  // Let's just try sending.
+  {
+      HidReport report;
+      report.x = processPedal(current_raw[0], &configs[0]);
+      report.y = processPedal(current_raw[1], &configs[1]);
+      report.z = processPedal(current_raw[2], &configs[2]);
 
-  gamepad.sendReport(&report);
+      gamepad.sendReport(&report);
+  }
 
-  // Serial Protocol
-  if (Serial.available()) {
-    String cmd = Serial.readStringUntil('\n');
-    cmd.trim();
-    if (cmd == "READ") {
-      Serial.printf("RAW:%d,%d,%d\n", current_raw[0], current_raw[1], current_raw[2]);
-    } else if (cmd == "GET_CONFIG") {
-      Serial.printf("CONF:%d:%d,%d:%d,%d:%d\n",
-        configs[0].min_val, configs[0].max_val,
-        configs[1].min_val, configs[1].max_val,
-        configs[2].min_val, configs[2].max_val);
-    } else if (cmd.startsWith("SET")) {
-      int idx, min_v, max_v;
-      if (sscanf(cmd.c_str(), "SET %d %d %d", &idx, &min_v, &max_v) == 3) {
-        if (idx >= 0 && idx < 3) {
-           configs[idx].min_val = (uint16_t)min_v;
-           configs[idx].max_val = (uint16_t)max_v;
-           Serial.println("OK");
-        }
-      }
-    } else if (cmd == "SAVE") {
-      saveConfig();
-      Serial.println("SAVED");
+  // Serial Event (Non-blocking)
+  while (Serial.available()) {
+    char inChar = (char)Serial.read();
+    if (inChar == '\n') {
+      stringComplete = true;
+    } else {
+      inputString += inChar;
     }
   }
 
-  delay(2); // Small delay to prevent flooding if loop is too fast (though HID sends interval)
+  if (stringComplete) {
+    inputString.trim();
+    if (inputString == "READ") {
+      Serial.printf("RAW:%d,%d,%d\n", current_raw[0], current_raw[1], current_raw[2]);
+    } else if (inputString == "GET_CONFIG") {
+      // CONF:min:max:dzs:dze,...
+      Serial.printf("CONF:%d:%d:%d:%d,%d:%d:%d:%d,%d:%d:%d:%d\n",
+        configs[0].min_val, configs[0].max_val, configs[0].dz_start, configs[0].dz_end,
+        configs[1].min_val, configs[1].max_val, configs[1].dz_start, configs[1].dz_end,
+        configs[2].min_val, configs[2].max_val, configs[2].dz_start, configs[2].dz_end);
+    } else if (inputString.startsWith("SET")) {
+      // SET idx min max dzs dze
+      int idx, min_v, max_v, dzs, dze;
+      if (sscanf(inputString.c_str(), "SET %d %d %d %d %d", &idx, &min_v, &max_v, &dzs, &dze) == 5) {
+        if (idx >= 0 && idx < 3) {
+           configs[idx].min_val = (uint16_t)min_v;
+           configs[idx].max_val = (uint16_t)max_v;
+           configs[idx].dz_start = (uint8_t)dzs;
+           configs[idx].dz_end = (uint8_t)dze;
+           Serial.println("OK");
+        }
+      }
+    } else if (inputString == "SAVE") {
+      saveConfig();
+      Serial.println("SAVED");
+    }
+    inputString = "";
+    stringComplete = false;
+  }
+
+  delay(10); // Relieve CPU
 }
