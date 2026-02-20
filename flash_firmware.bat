@@ -23,8 +23,8 @@ echo prosze przytrzymac przycisk BOOT na plytce ESP32.
 echo =======================================================
 echo.
 
-echo Wgrywanie firmware do %COM%...
-python -m esptool --chip esp32s3 --port %COM% --baud 460800 --before default_reset --after hard_reset write_flash -z 0x10000 bin\firmware.bin
+echo Wgrywanie pelnego firmware (bootloader + partitions + app) do %COM%...
+python -m esptool --chip esp32s3 --port %COM% --baud 460800 --before default_reset --after hard_reset write_flash -z 0x0 bin\bootloader.bin 0x8000 bin\partitions.bin 0x10000 bin\firmware.bin
 
 echo.
 echo Gotowe! Zresetuj urzadzenie przyciskiem RST.

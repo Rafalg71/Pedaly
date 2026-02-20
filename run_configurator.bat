@@ -1,12 +1,7 @@
 @echo off
-echo Instalowanie zaleznosci (dependencies)...
-pip install -r pedals-configurator\requirements.txt
-if %ERRORLEVEL% NEQ 0 (
-    echo Nie udalo sie zainstalowac zaleznosci. Upewnij sie, ze Python jest w PATH.
-    pause
-    exit /b
-)
+echo Instalowanie zaleznosci (jesli potrzebne)...
+pip install -r pedals-configurator\requirements.txt >nul 2>&1
 
 echo Uruchamianie Konfiguratora...
-python pedals-configurator\configurator.py
-pause
+start "" pythonw pedals-configurator\configurator.pyw
+exit

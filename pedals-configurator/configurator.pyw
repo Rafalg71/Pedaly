@@ -5,10 +5,12 @@ import serial.tools.list_ports
 import threading
 import time
 import queue
+import sys
 
 # Try to import ttkbootstrap for modern look
 try:
     import ttkbootstrap as tb
+    from ttkbootstrap.constants import *
     ROOT_CLASS = tb.Window
     THEME = "darkly"
 except ImportError:
@@ -18,12 +20,12 @@ except ImportError:
 class ConfiguratorApp(ROOT_CLASS):
     def __init__(self):
         if THEME:
-            super().__init__(themename=THEME)
+            super().__init__(themename=THEME, title="Konfigurator Pedałów SimRacing", iconphoto=None)
         else:
             super().__init__()
+            self.title("Konfigurator Pedałów SimRacing")
 
-        self.title("SimRacing Pedals Configurator")
-        self.geometry("900x600")
+        self.geometry("950x650")
 
         self.serial_port = None
         self.is_connected = False
@@ -31,7 +33,7 @@ class ConfiguratorApp(ROOT_CLASS):
         self.lock = threading.Lock()
 
         # UI State
-        self.pedal_vars = [] # Holds dict of vars for each pedal
+        self.pedal_vars = []
 
         self.create_ui()
 
@@ -43,31 +45,31 @@ class ConfiguratorApp(ROOT_CLASS):
         self.reader_thread.start()
 
     def create_ui(self):
-        # Top Frame: Connection
-        conn_frame = ttk.Frame(self, padding=10)
-        conn_frame.pack(fill='x')
+        # --- Connection Frame ---
+        conn_frame = ttk.Labelframe(self, text="Połączenie", padding=15)
+        conn_frame.pack(fill='x', padx=20, pady=10)
 
-        ttk.Label(conn_frame, text="Serial Port:").pack(side='left', padx=5)
+        ttk.Label(conn_frame, text="Port COM:", font=('Helvetica', 10)).pack(side='left', padx=10)
         self.port_var = tk.StringVar()
-        self.cbo_ports = ttk.Combobox(conn_frame, textvariable=self.port_var, width=20)
+        self.cbo_ports = ttk.Combobox(conn_frame, textvariable=self.port_var, width=25, state="readonly")
         self.cbo_ports.pack(side='left', padx=5)
         self.refresh_ports()
 
-        ttk.Button(conn_frame, text="Refresh", command=self.refresh_ports).pack(side='left', padx=5)
-        self.btn_connect = ttk.Button(conn_frame, text="Connect", command=self.toggle_connect)
+        ttk.Button(conn_frame, text="⟳ Odśwież", command=self.refresh_ports, style='info.Outline.TButton' if THEME else None).pack(side='left', padx=10)
+        self.btn_connect = ttk.Button(conn_frame, text="Połącz", command=self.toggle_connect, style='primary.TButton' if THEME else None)
         self.btn_connect.pack(side='left', padx=5)
 
-        self.lbl_status = ttk.Label(conn_frame, text="Disconnected", foreground="red")
-        self.lbl_status.pack(side='left', padx=10)
+        self.lbl_status = ttk.Label(conn_frame, text="Rozłączono", font=('Helvetica', 10, 'bold'), foreground="red")
+        self.lbl_status.pack(side='right', padx=20)
 
-        # Main Frame: Pedals
-        main_frame = ttk.LabelFrame(self, text="Pedal Calibration", padding=10)
-        main_frame.pack(fill='both', expand=True, padx=10, pady=10)
+        # --- Pedals Frame ---
+        main_frame = ttk.Labelframe(self, text="Kalibracja Pedałów", padding=15)
+        main_frame.pack(fill='both', expand=True, padx=20, pady=10)
 
-        pedal_names = ["Throttle", "Brake", "Clutch"]
+        pedal_names = ["Gaz (Throttle)", "Hamulec (Brake)", "Sprzęgło (Clutch)"]
 
         for idx, name in enumerate(pedal_names):
-            row_frame = ttk.Frame(main_frame, padding=5, borderwidth=1, relief="solid")
+            row_frame = ttk.Frame(main_frame, padding=10)
             row_frame.pack(fill='x', pady=5)
 
             # Variables
@@ -87,45 +89,58 @@ class ConfiguratorApp(ROOT_CLASS):
                 "idx": idx
             })
 
-            # Row Layout
-            # Header
-            ttk.Label(row_frame, text=name, width=10, font=('Segoe UI', 12, 'bold')).grid(row=0, column=0, rowspan=2, padx=5)
+            # -- Row Layout --
+
+            # Name & Current Value
+            info_frame = ttk.Frame(row_frame, width=200)
+            info_frame.pack(side='left', padx=(0, 20))
+            ttk.Label(info_frame, text=name, font=('Helvetica', 12, 'bold')).pack(anchor='w')
+            val_lbl = ttk.Label(info_frame, textvariable=raw_var, font=('Consolas', 14), foreground="#00bc8c" if THEME else "black")
+            val_lbl.pack(anchor='w')
+
+            # Controls
+            ctrl_frame = ttk.Frame(row_frame)
+            ctrl_frame.pack(side='left', fill='x', expand=True)
 
             # Progress Bar
-            pb = ttk.Progressbar(row_frame, orient='horizontal', length=400, mode='determinate', maximum=4095, variable=raw_var)
-            pb.grid(row=0, column=1, columnspan=6, padx=5, pady=5, sticky='ew')
-            ttk.Label(row_frame, textvariable=raw_var, width=5).grid(row=0, column=7, padx=5)
+            pb = ttk.Progressbar(ctrl_frame, orient='horizontal', mode='determinate', maximum=4095, variable=raw_var, style='success.Striped.Horizontal.TProgressbar' if THEME else None)
+            pb.pack(fill='x', pady=(0, 10))
 
-            # Controls Row
+            # Settings Grid
+            settings_grid = ttk.Frame(ctrl_frame)
+            settings_grid.pack(fill='x')
+
             # Min
-            ttk.Label(row_frame, text="Min:").grid(row=1, column=1, sticky='e')
-            ttk.Entry(row_frame, textvariable=min_var, width=6).grid(row=1, column=2)
-            ttk.Button(row_frame, text="Set", command=lambda i=idx: self.set_current_as_min(i), width=4).grid(row=1, column=3, padx=2)
+            ttk.Label(settings_grid, text="Min (Puszczony):").grid(row=0, column=0, padx=5, sticky='e')
+            ttk.Entry(settings_grid, textvariable=min_var, width=8).grid(row=0, column=1, padx=2)
+            ttk.Button(settings_grid, text="Ustaw", command=lambda i=idx: self.set_current_as_min(i), style='secondary.Outline.TButton' if THEME else None, width=6).grid(row=0, column=2, padx=5)
 
             # Max
-            ttk.Label(row_frame, text="Max:").grid(row=1, column=4, sticky='e')
-            ttk.Entry(row_frame, textvariable=max_var, width=6).grid(row=1, column=5)
-            ttk.Button(row_frame, text="Set", command=lambda i=idx: self.set_current_as_max(i), width=4).grid(row=1, column=6, padx=2)
+            ttk.Label(settings_grid, text="Max (Wciśnięty):").grid(row=0, column=3, padx=(20, 5), sticky='e')
+            ttk.Entry(settings_grid, textvariable=max_var, width=8).grid(row=0, column=4, padx=2)
+            ttk.Button(settings_grid, text="Ustaw", command=lambda i=idx: self.set_current_as_max(i), style='secondary.Outline.TButton' if THEME else None, width=6).grid(row=0, column=5, padx=5)
 
             # Deadzones
-            dz_frame = ttk.Frame(row_frame)
-            dz_frame.grid(row=1, column=7, columnspan=2, padx=10)
+            ttk.Label(settings_grid, text="Martwa strefa Start (%):").grid(row=0, column=6, padx=(20, 5), sticky='e')
+            ttk.Spinbox(settings_grid, from_=0, to=50, textvariable=dz_start_var, width=4).grid(row=0, column=7, padx=2)
 
-            ttk.Label(dz_frame, text="DZ Start (%):").pack(side='left')
-            ttk.Entry(dz_frame, textvariable=dz_start_var, width=4).pack(side='left', padx=2)
+            ttk.Label(settings_grid, text="Koniec (%):").grid(row=0, column=8, padx=5, sticky='e')
+            ttk.Spinbox(settings_grid, from_=0, to=50, textvariable=dz_end_var, width=4).grid(row=0, column=9, padx=2)
 
-            ttk.Label(dz_frame, text="End (%):").pack(side='left', padx=(5,0))
-            ttk.Entry(dz_frame, textvariable=dz_end_var, width=4).pack(side='left', padx=2)
+            # Separator
+            ttk.Separator(main_frame, orient='horizontal').pack(fill='x', pady=5)
 
-        # Bottom Frame: Actions
-        action_frame = ttk.Frame(self, padding=10)
-        action_frame.pack(fill='x')
+        # --- Footer Frame ---
+        footer = ttk.Frame(self, padding=15)
+        footer.pack(fill='x', side='bottom')
 
-        ttk.Button(action_frame, text="Read Config", command=self.send_get_config).pack(side='left', padx=10)
-        ttk.Button(action_frame, text="Save Calibration", command=self.save_config, style='success.TButton' if THEME else None).pack(side='right', padx=10)
+        ttk.Button(footer, text="📥 Odczytaj Ustawienia", command=self.send_get_config, style='info.TButton' if THEME else None).pack(side='left', padx=10)
 
-        self.lbl_save_status = ttk.Label(action_frame, text="", foreground="green")
-        self.lbl_save_status.pack(side='right', padx=10)
+        save_btn = ttk.Button(footer, text="💾 Zapisz Kalibrację w Urządzeniu", command=self.save_config, style='success.TButton' if THEME else None)
+        save_btn.pack(side='right', padx=10)
+
+        self.lbl_save_status = ttk.Label(footer, text="", font=('Helvetica', 10, 'italic'), foreground="#00bc8c")
+        self.lbl_save_status.pack(side='right', padx=20)
 
     def refresh_ports(self):
         ports = sorted([p.device for p in serial.tools.list_ports.comports()])
@@ -138,15 +153,16 @@ class ConfiguratorApp(ROOT_CLASS):
             try:
                 port = self.port_var.get()
                 if not port:
+                    messagebox.showwarning("Błąd", "Wybierz port COM!")
                     return
                 self.serial_port = serial.Serial(port, 115200, timeout=1)
                 self.is_connected = True
-                self.btn_connect.config(text="Disconnect", style='danger.TButton' if THEME else None)
-                self.lbl_status.config(text="Connected", foreground="green")
+                self.btn_connect.config(text="Rozłącz", style='danger.TButton' if THEME else None)
+                self.lbl_status.config(text="Połączono", foreground="#00bc8c" if THEME else "green")
                 # Request config immediately
                 self.send_get_config()
             except Exception as e:
-                messagebox.showerror("Connection Error", str(e))
+                messagebox.showerror("Błąd Połączenia", str(e))
         else:
             self.disconnect()
 
@@ -158,8 +174,8 @@ class ConfiguratorApp(ROOT_CLASS):
             except:
                 pass
             self.serial_port = None
-        self.btn_connect.config(text="Connect", style='success.TButton' if THEME else None)
-        self.lbl_status.config(text="Disconnected", foreground="red")
+        self.btn_connect.config(text="Połącz", style='primary.TButton' if THEME else None)
+        self.lbl_status.config(text="Rozłączono", foreground="red")
 
     def serial_reader_loop(self):
         while True:
@@ -203,17 +219,17 @@ class ConfiguratorApp(ROOT_CLASS):
                 dze = int(p['dz_end'].get())
 
                 if mn == mx:
-                    messagebox.showerror("Validation Error", f"Pedal {p['name']}: Min cannot equal Max.")
+                    messagebox.showerror("Błąd Walidacji", f"Pedał {p['name']}: Min nie może być równe Max.")
                     return
                 if dzs < 0 or dzs > 100 or dze < 0 or dze > 100:
-                     messagebox.showerror("Validation Error", f"Pedal {p['name']}: Deadzone must be 0-100%.")
+                     messagebox.showerror("Błąd Walidacji", f"Pedał {p['name']}: Martwa strefa musi być 0-100%.")
                      return
                 if dzs + dze >= 100:
-                     messagebox.showerror("Validation Error", f"Pedal {p['name']}: Total deadzone cannot exceed 100%.")
+                     messagebox.showerror("Błąd Walidacji", f"Pedał {p['name']}: Suma stref nie może przekraczać 100%.")
                      return
 
             except ValueError:
-                messagebox.showerror("Validation Error", f"Invalid number format for {p['name']}.")
+                messagebox.showerror("Błąd Walidacji", f"Nieprawidłowy format liczby dla {p['name']}.")
                 return
 
         # Send SET commands for each pedal
@@ -229,7 +245,7 @@ class ConfiguratorApp(ROOT_CLASS):
 
         # Send SAVE
         self.send_command("SAVE")
-        self.lbl_save_status.config(text="Saving...")
+        self.lbl_save_status.config(text="Zapisywanie...")
         self.after(2000, lambda: self.lbl_save_status.config(text=""))
 
     def set_current_as_min(self, idx):
@@ -267,7 +283,7 @@ class ConfiguratorApp(ROOT_CLASS):
                 except ValueError:
                     pass
             elif msg == "SAVED":
-                self.lbl_save_status.config(text="Saved ✓")
+                self.lbl_save_status.config(text="Zapisano Pomyślnie ✓")
 
         self.after(50, self.process_queue)
 

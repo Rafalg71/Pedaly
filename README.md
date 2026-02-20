@@ -4,7 +4,7 @@ Niestandardowe pedały SimRacing używające układu ESP32-S3. Wykrywane jako st
 
 ## Funkcje
 - **3 Pedały:** Gaz, Hamulec, Sprzęgło.
-- **Łatwa Konfiguracja:** Użyj aplikacji PC do ustawienia zakresów Min/Max oraz martwych stref (deadzones).
+- **Łatwa Konfiguracja:** Nowoczesna aplikacja PC (ciemny motyw) do ustawienia zakresów Min/Max oraz martwych stref.
 - **Wysoka Rozdzielczość:** 16-bitowa precyzja.
 - **Zapis Ustawień:** Pamięta kalibrację po restarcie.
 
@@ -35,14 +35,14 @@ Niestandardowe pedały SimRacing używające układu ESP32-S3. Wykrywane jako st
 ### 2. Konfiguracja Pedałów
 1.  Uruchom `run_configurator.bat` (Windows) lub:
     ```bash
-    python pedals-configurator/configurator.py
+    pythonw pedals-configurator/configurator.pyw
     ```
-2.  Wybierz port COM i kliknij **Connect** (Połącz).
+2.  Aplikacja uruchomi się bez okna konsoli. Wybierz port COM i kliknij **Połącz**.
 3.  Kalibracja każdego pedału:
-    -   Kliknij **Set** obok Min (puszczony).
-    -   Wciśnij pedał do końca, kliknij **Set** obok Max (wciśnięty).
-    -   (Opcjonalnie) Ustaw martwe strefy (**Deadzone**) w % dla początku i końca zakresu.
-4.  Kliknij **Save Calibration** (Zapisz Kalibrację).
+    -   Kliknij **Ustaw** (Set) obok Min (puszczony).
+    -   Wciśnij pedał do końca, kliknij **Ustaw** obok Max (wciśnięty).
+    -   (Opcjonalnie) Ustaw martwe strefy (**Martwa strefa**) w % dla początku i końca zakresu.
+4.  Kliknij **Zapisz Kalibrację w Urządzeniu**.
 
 ## Zaawansowana Konfiguracja (Dla Programistów)
 Jeśli chcesz modyfikować kod:
