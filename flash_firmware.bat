@@ -16,8 +16,16 @@ if %ERRORLEVEL% NEQ 0 (
     exit /b
 )
 
-echo Wgrywanie firmware do %COM%...
-python -m esptool --chip esp32s3 --port %COM% --baud 921600 write_flash -z 0x10000 bin\firmware.bin
+echo.
+echo =======================================================
+echo Wazne: Jesli wgrywanie sie zawiesi na 'Serial port...',
+echo prosze przytrzymac przycisk BOOT na plytce ESP32.
+echo =======================================================
+echo.
 
-echo Gotowe! Zresetuj urzadzenie.
+echo Wgrywanie firmware do %COM%...
+python -m esptool --chip esp32s3 --port %COM% --baud 460800 --before default_reset --after hard_reset write_flash -z 0x10000 bin\firmware.bin
+
+echo.
+echo Gotowe! Zresetuj urzadzenie przyciskiem RST.
 pause

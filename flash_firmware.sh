@@ -1,21 +1,29 @@
 #!/bin/bash
 # Linux/Mac script to flash firmware
 
-read -p "Enter the device path of your ESP32 (e.g., /dev/ttyACM0): " PORT
+read -p "Wpisz sciezke portu ESP32 (np. /dev/ttyACM0): " PORT
 
 if [ -z "$PORT" ]; then
-    echo "No port entered. Exiting."
+    echo "Nie podano portu. Konczenie."
     exit 1
 fi
 
-echo "Installing esptool..."
+echo "Instalowanie esptool..."
 pip install esptool
 if [ $? -ne 0 ]; then
-    echo "Failed to install esptool. Please ensure pip is installed."
+    echo "Nie udalo sie zainstalowac esptool."
     exit 1
 fi
 
-echo "Flashing firmware to $PORT..."
-python3 -m esptool --chip esp32s3 --port $PORT --baud 921600 write_flash -z 0x10000 bin/firmware.bin
+echo ""
+echo "======================================================="
+echo "Wazne: Jesli wgrywanie sie zawiesi na 'Serial port...',"
+echo "prosze przytrzymac przycisk BOOT na plytce ESP32."
+echo "======================================================="
+echo ""
 
-echo "Done! Reset your board."
+echo "Wgrywanie firmware do $PORT..."
+python3 -m esptool --chip esp32s3 --port $PORT --baud 460800 --before default_reset --after hard_reset write_flash -z 0x10000 bin/firmware.bin
+
+echo ""
+echo "Gotowe! Zresetuj urzadzenie przyciskiem RST."

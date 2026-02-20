@@ -10,7 +10,7 @@ Niestandardowe pedały SimRacing używające układu ESP32-S3. Wykrywane jako st
 
 ## Wymagany Sprzęt
 - ESP32-S3 DevKitC-1
-- 3x Potencjometr 10k
+- 3x Potencjometr 50k (liniowy)
 - Kabel USB
 
 ## Podłączenie (Wiring)
