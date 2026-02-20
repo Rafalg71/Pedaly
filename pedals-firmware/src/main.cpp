@@ -8,16 +8,22 @@
 #define BRAKE_PIN 2
 #define CLUTCH_PIN 3
 
+// Button Pins (Shifter)
+// Using GPIO 4-11 for simplicity, adjust as needed.
+const int button_pins[8] = {4, 5, 6, 7, 8, 9, 10, 11};
+
 // Calibration Defaults
 #define DEFAULT_MIN 0
 #define DEFAULT_MAX 4095
 #define DEFAULT_DZ 0 // 0%
 
-// HID Report Descriptor: 16-bit X, Y, Z
+// HID Report Descriptor: 16-bit X, Y, Z + 8 Buttons
 static const uint8_t desc_hid_report[] = {
   0x05, 0x01,        // Usage Page (Generic Desktop Ctrls)
   0x09, 0x04,        // Usage (Joystick)
   0xA1, 0x01,        // Collection (Application)
+
+  // Axes (X, Y, Z)
   0x05, 0x01,        //   Usage Page (Generic Desktop Ctrls)
   0x09, 0x01,        //   Usage (Pointer)
   0xA1, 0x00,        //   Collection (Physical)
@@ -30,6 +36,22 @@ static const uint8_t desc_hid_report[] = {
   0x95, 0x03,        //     Report Count (3)
   0x81, 0x02,        //     Input (Data, Var, Abs)
   0xC0,              //   End Collection
+
+  // Buttons (1-8)
+  0x05, 0x09,        //   Usage Page (Button)
+  0x19, 0x01,        //   Usage Minimum (1)
+  0x29, 0x08,        //   Usage Maximum (8)
+  0x15, 0x00,        //   Logical Minimum (0)
+  0x25, 0x01,        //   Logical Maximum (1)
+  0x75, 0x01,        //   Report Size (1)
+  0x95, 0x08,        //   Report Count (8)
+  0x81, 0x02,        //   Input (Data, Var, Abs)
+
+  // Padding (optional for byte alignment, but 3*16 + 8 = 56 bits = 7 bytes. Perfect.)
+  // Actually, HID report size is often byte-aligned.
+  // 3 * 16 = 48 bits. + 8 bits = 56 bits = 7 bytes.
+  // Wait. 48 + 8 = 56. 56 / 8 = 7. Yes.
+
   0xC0               // End Collection
 };
 
@@ -37,6 +59,7 @@ struct __attribute__((packed)) HidReport {
   uint16_t x;
   uint16_t y;
   uint16_t z;
+  uint8_t buttons;
 };
 
 USBHID HID;
@@ -80,6 +103,8 @@ struct PedalConfig {
 PedalConfig configs[3];
 int pins[3] = {THROTTLE_PIN, BRAKE_PIN, CLUTCH_PIN};
 uint16_t current_raw[3];
+uint8_t current_buttons = 0;
+
 String inputString = "";         // a String to hold incoming data
 bool stringComplete = false;  // whether the string is complete
 
@@ -122,38 +147,20 @@ uint16_t processPedal(uint16_t raw, PedalConfig* cfg) {
 
     if (min_v == max_v) return 0;
 
-    // Calculate effective range with deadzones
     long range = max_v - min_v;
     long start_v, end_v;
-
-    // Normal or Inverted Logic handled by map() if we define bounds correctly
-    // But deadzones are relative to the "physical travel".
-    // Let's normalize to 0-100% first relative to raw min/max, then apply deadzone, then scale.
-
-    // Simpler: Adjust min_v and max_v based on percentage
-    // If Normal: min < max. range is positive.
-    // If Inverted: min > max. range is negative.
 
     start_v = min_v + (range * cfg->dz_start / 100);
     end_v = max_v - (range * cfg->dz_end / 100);
 
-    // Apply constraints based on new start/end
     if (min_v < max_v) { // Normal
-        if (start_v >= end_v) return 0; // Config Error or overlap
+        if (start_v >= end_v) return 0;
         val = constrain(val, start_v, end_v);
         return map(val, start_v, end_v, 0, 65535);
     } else { // Inverted
-        // e.g. min=4000, max=0. range=-4000.
-        // dz_start=10%. start = 4000 + (-400) = 3600.
-        // dz_end=10%. end = 0 - (-400) = 400.
-        // map(val, 3600, 400, 0, 65535).
-        // if val=3800 (released), it's > start. constrain to start.
-        if (start_v <= end_v) return 0; // Config Error
-
-        // Custom constrain for inverted range
+        if (start_v <= end_v) return 0;
         if (val > start_v) val = start_v;
         if (val < end_v) val = end_v;
-
         return map(val, start_v, end_v, 0, 65535);
     }
 }
@@ -163,6 +170,7 @@ void setup() {
   inputString.reserve(200);
 
   for(int i=0; i<3; i++) pinMode(pins[i], INPUT);
+  for(int i=0; i<8; i++) pinMode(button_pins[i], INPUT_PULLUP); // Active LOW
 
   loadConfig();
 
@@ -171,23 +179,29 @@ void setup() {
 }
 
 void loop() {
-  // Read and Smooth
+  // Read and Smooth Pedals
   for(int i=0; i<3; i++) {
     long sum = 0;
-    // Reduce samples to 8 for speed
     for(int k=0; k<8; k++) sum += analogRead(pins[i]);
     current_raw[i] = sum / 8;
   }
 
-  // USB.isConnected() might not be available in all core versions or specific modes.
-  // TinyUSB usually handles this internally, but for built-in USBHID, we can check if it's mounted?
-  // Actually, sending report usually returns false if not connected.
-  // Let's just try sending.
+  // Read Buttons
+  current_buttons = 0;
+  for(int i=0; i<8; i++) {
+    if (digitalRead(button_pins[i]) == LOW) { // Pressed
+      current_buttons |= (1 << i);
+    }
+  }
+
+  // Send HID Report
+  // USB.isConnected check removed for stability (handled internally or ignored)
   {
       HidReport report;
       report.x = processPedal(current_raw[0], &configs[0]);
       report.y = processPedal(current_raw[1], &configs[1]);
       report.z = processPedal(current_raw[2], &configs[2]);
+      report.buttons = current_buttons;
 
       gamepad.sendReport(&report);
   }
@@ -205,15 +219,14 @@ void loop() {
   if (stringComplete) {
     inputString.trim();
     if (inputString == "READ") {
-      Serial.printf("RAW:%d,%d,%d\n", current_raw[0], current_raw[1], current_raw[2]);
+      // Return: RAW:x,y,z,buttons_byte
+      Serial.printf("RAW:%d,%d,%d,%d\n", current_raw[0], current_raw[1], current_raw[2], current_buttons);
     } else if (inputString == "GET_CONFIG") {
-      // CONF:min:max:dzs:dze,...
       Serial.printf("CONF:%d:%d:%d:%d,%d:%d:%d:%d,%d:%d:%d:%d\n",
         configs[0].min_val, configs[0].max_val, configs[0].dz_start, configs[0].dz_end,
         configs[1].min_val, configs[1].max_val, configs[1].dz_start, configs[1].dz_end,
         configs[2].min_val, configs[2].max_val, configs[2].dz_start, configs[2].dz_end);
     } else if (inputString.startsWith("SET")) {
-      // SET idx min max dzs dze
       int idx, min_v, max_v, dzs, dze;
       if (sscanf(inputString.c_str(), "SET %d %d %d %d %d", &idx, &min_v, &max_v, &dzs, &dze) == 5) {
         if (idx >= 0 && idx < 3) {
@@ -232,5 +245,5 @@ void loop() {
     stringComplete = false;
   }
 
-  delay(10); // Relieve CPU
+  delay(10);
 }

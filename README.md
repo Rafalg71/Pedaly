@@ -4,6 +4,7 @@ Niestandardowe pedały SimRacing używające układu ESP32-S3. Wykrywane jako st
 
 ## Funkcje
 - **3 Pedały:** Gaz, Hamulec, Sprzęgło.
+- **8 Przycisków (Shifter):** Obsługa przycisków cyfrowych (np. do skrzyni biegów lub kierownicy).
 - **Łatwa Konfiguracja:** Nowoczesna aplikacja PC (ciemny motyw) do ustawienia zakresów Min/Max oraz martwych stref.
 - **Wysoka Rozdzielczość:** 16-bitowa precyzja.
 - **Zapis Ustawień:** Pamięta kalibrację po restarcie.
@@ -11,9 +12,12 @@ Niestandardowe pedały SimRacing używające układu ESP32-S3. Wykrywane jako st
 ## Wymagany Sprzęt
 - ESP32-S3 DevKitC-1
 - 3x Potencjometr 50k (liniowy)
+- Przełączniki/Przyciski (max 8)
 - Kabel USB
 
 ## Podłączenie (Wiring)
+
+### Pedały (Analogowe)
 | Pedał    | Pin ESP32-S3 |
 |----------|--------------|
 | Gaz      | GPIO 1       |
@@ -21,6 +25,14 @@ Niestandardowe pedały SimRacing używające układu ESP32-S3. Wykrywane jako st
 | Sprzęgło | GPIO 3       |
 
 **Uwaga:** Środkowy pin potencjometru (Wiper) podłącz do pinu GPIO, a skrajne do 3.3V i GND.
+
+### Przyciski / Shifter (Cyfrowe)
+Piny GPIO: **4, 5, 6, 7, 8, 9, 10, 11**
+
+**Podłączenie:**
+- Jeden styk przycisku do **GND**.
+- Drugi styk przycisku do wybranego pinu **GPIO**.
+*(Wewnętrzne rezystory Pull-Up są włączone programowo).*
 
 ## Instalacja (Łatwy Sposób)
 
@@ -42,7 +54,8 @@ Niestandardowe pedały SimRacing używające układu ESP32-S3. Wykrywane jako st
     -   Kliknij **Ustaw** (Set) obok Min (puszczony).
     -   Wciśnij pedał do końca, kliknij **Ustaw** obok Max (wciśnięty).
     -   (Opcjonalnie) Ustaw martwe strefy (**Martwa strefa**) w % dla początku i końca zakresu.
-4.  Kliknij **Zapisz Kalibrację w Urządzeniu**.
+4.  Przyciski można przetestować w sekcji **Przyciski / Shifter** (podświetlą się na zielono).
+5.  Kliknij **Zapisz Kalibrację w Urządzeniu**.
 
 ## Zaawansowana Konfiguracja (Dla Programistów)
 Jeśli chcesz modyfikować kod:
