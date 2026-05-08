@@ -16,6 +16,7 @@ const int button_pins[8] = {4, 5, 6, 7, 8, 9, 10, 11};
 #define DEFAULT_MIN 0
 #define DEFAULT_MAX 4095
 #define DEFAULT_DZ 0 // 0%
+#define DEFAULT_SMOOTHING 8
 
 // HID Report Descriptor: 16-bit X, Y, Z + 8 Buttons
 static const uint8_t desc_hid_report[] = {
@@ -98,6 +99,8 @@ struct PedalConfig {
   uint16_t max_val;
   uint8_t dz_start; // %
   uint8_t dz_end;   // %
+  uint8_t smoothing;
+  uint8_t inverted; // 0 or 1
 };
 
 PedalConfig configs[3];
@@ -120,6 +123,10 @@ void loadConfig() {
     configs[i].dz_start = prefs.getUChar(key, DEFAULT_DZ);
     sprintf(key, "p%d_de", i);
     configs[i].dz_end = prefs.getUChar(key, DEFAULT_DZ);
+    sprintf(key, "p%d_sm", i);
+    configs[i].smoothing = prefs.getUChar(key, DEFAULT_SMOOTHING);
+    sprintf(key, "p%d_inv", i);
+    configs[i].inverted = prefs.getUChar(key, 0);
   }
   prefs.end();
 }
@@ -136,6 +143,10 @@ void saveConfig() {
     prefs.putUChar(key, configs[i].dz_start);
     sprintf(key, "p%d_de", i);
     prefs.putUChar(key, configs[i].dz_end);
+    sprintf(key, "p%d_sm", i);
+    prefs.putUChar(key, configs[i].smoothing);
+    sprintf(key, "p%d_inv", i);
+    prefs.putUChar(key, configs[i].inverted);
   }
   prefs.end();
 }
@@ -144,6 +155,12 @@ uint16_t processPedal(uint16_t raw, PedalConfig* cfg) {
     long min_v = cfg->min_val;
     long max_v = cfg->max_val;
     long val = raw;
+
+    if (cfg->inverted) {
+        long temp = min_v;
+        min_v = max_v;
+        max_v = temp;
+    }
 
     if (min_v == max_v) return 0;
 
@@ -182,8 +199,10 @@ void loop() {
   // Read and Smooth Pedals
   for(int i=0; i<3; i++) {
     long sum = 0;
-    for(int k=0; k<8; k++) sum += analogRead(pins[i]);
-    current_raw[i] = sum / 8;
+    int samples = configs[i].smoothing;
+    if (samples < 1) samples = 1;
+    for(int k=0; k<samples; k++) sum += analogRead(pins[i]);
+    current_raw[i] = sum / samples;
   }
 
   // Read Buttons
@@ -222,18 +241,20 @@ void loop() {
       // Return: RAW:x,y,z,buttons_byte
       Serial.printf("RAW:%d,%d,%d,%d\n", current_raw[0], current_raw[1], current_raw[2], current_buttons);
     } else if (inputString == "GET_CONFIG") {
-      Serial.printf("CONF:%d:%d:%d:%d,%d:%d:%d:%d,%d:%d:%d:%d\n",
-        configs[0].min_val, configs[0].max_val, configs[0].dz_start, configs[0].dz_end,
-        configs[1].min_val, configs[1].max_val, configs[1].dz_start, configs[1].dz_end,
-        configs[2].min_val, configs[2].max_val, configs[2].dz_start, configs[2].dz_end);
+      Serial.printf("CONF:%d:%d:%d:%d:%d:%d,%d:%d:%d:%d:%d:%d,%d:%d:%d:%d:%d:%d\n",
+        configs[0].min_val, configs[0].max_val, configs[0].dz_start, configs[0].dz_end, configs[0].smoothing, configs[0].inverted,
+        configs[1].min_val, configs[1].max_val, configs[1].dz_start, configs[1].dz_end, configs[1].smoothing, configs[1].inverted,
+        configs[2].min_val, configs[2].max_val, configs[2].dz_start, configs[2].dz_end, configs[2].smoothing, configs[2].inverted);
     } else if (inputString.startsWith("SET")) {
-      int idx, min_v, max_v, dzs, dze;
-      if (sscanf(inputString.c_str(), "SET %d %d %d %d %d", &idx, &min_v, &max_v, &dzs, &dze) == 5) {
+      int idx, min_v, max_v, dzs, dze, sm, inv;
+      if (sscanf(inputString.c_str(), "SET %d %d %d %d %d %d %d", &idx, &min_v, &max_v, &dzs, &dze, &sm, &inv) == 7) {
         if (idx >= 0 && idx < 3) {
            configs[idx].min_val = (uint16_t)min_v;
            configs[idx].max_val = (uint16_t)max_v;
            configs[idx].dz_start = (uint8_t)dzs;
            configs[idx].dz_end = (uint8_t)dze;
+           configs[idx].smoothing = (uint8_t)sm;
+           configs[idx].inverted = (uint8_t)inv;
            Serial.println("OK");
         }
       }
