@@ -78,6 +78,8 @@ class ConfiguratorApp(ROOT_CLASS):
             max_var = tk.StringVar(value="4095")
             dz_start_var = tk.StringVar(value="0")
             dz_end_var = tk.StringVar(value="0")
+            smoothing_var = tk.IntVar(value=8)
+            invert_var = tk.BooleanVar(value=False)
 
             self.pedal_vars.append({
                 "raw": raw_var,
@@ -85,6 +87,8 @@ class ConfiguratorApp(ROOT_CLASS):
                 "max": max_var,
                 "dz_start": dz_start_var,
                 "dz_end": dz_end_var,
+                "smoothing": smoothing_var,
+                "invert": invert_var,
                 "name": name,
                 "idx": idx
             })
@@ -121,6 +125,11 @@ class ConfiguratorApp(ROOT_CLASS):
             ttk.Spinbox(settings_grid, from_=0, to=50, textvariable=dz_start_var, width=4).grid(row=0, column=7, padx=2)
             ttk.Label(settings_grid, text="Koniec (%):").grid(row=0, column=8, padx=5, sticky='e')
             ttk.Spinbox(settings_grid, from_=0, to=50, textvariable=dz_end_var, width=4).grid(row=0, column=9, padx=2)
+
+            ttk.Label(settings_grid, text="Wygładzanie:").grid(row=1, column=0, padx=5, pady=5, sticky='e')
+            ttk.Spinbox(settings_grid, from_=1, to=100, textvariable=smoothing_var, width=4).grid(row=1, column=1, padx=2, pady=5)
+
+            ttk.Checkbutton(settings_grid, text="Odwróć (Invert)", variable=invert_var, style='round-toggle' if THEME else None).grid(row=1, column=3, columnspan=3, padx=20, pady=5, sticky='w')
 
             ttk.Separator(main_frame, orient='horizontal').pack(fill='x', pady=5)
 
@@ -236,6 +245,7 @@ class ConfiguratorApp(ROOT_CLASS):
                 mx = int(p['max'].get())
                 dzs = int(p['dz_start'].get())
                 dze = int(p['dz_end'].get())
+                sm = p['smoothing'].get()
                 if mn == mx:
                     messagebox.showerror("Błąd Walidacji", f"Pedał {p['name']}: Min nie może być równe Max.")
                     return
@@ -244,6 +254,9 @@ class ConfiguratorApp(ROOT_CLASS):
                      return
                 if dzs + dze >= 100:
                      messagebox.showerror("Błąd Walidacji", f"Pedał {p['name']}: Suma stref nie może przekraczać 100%.")
+                     return
+                if sm < 1 or sm > 100:
+                     messagebox.showerror("Błąd Walidacji", f"Pedał {p['name']}: Wygładzanie musi być od 1 do 100.")
                      return
             except ValueError:
                 messagebox.showerror("Błąd Walidacji", f"Nieprawidłowy format liczby dla {p['name']}.")
@@ -255,7 +268,9 @@ class ConfiguratorApp(ROOT_CLASS):
             mx = p['max'].get()
             dzs = p['dz_start'].get()
             dze = p['dz_end'].get()
-            self.send_command(f"SET {idx} {mn} {mx} {dzs} {dze}")
+            sm = p['smoothing'].get()
+            inv = 1 if p['invert'].get() else 0
+            self.send_command(f"SET {idx} {mn} {mx} {dzs} {dze} {sm} {inv}")
             time.sleep(0.05)
 
         self.send_command("SAVE")
@@ -304,6 +319,13 @@ class ConfiguratorApp(ROOT_CLASS):
                                 self.pedal_vars[i]['max'].set(p_parts[1])
                                 self.pedal_vars[i]['dz_start'].set(p_parts[2])
                                 self.pedal_vars[i]['dz_end'].set(p_parts[3])
+                            elif len(p_parts) == 6:
+                                self.pedal_vars[i]['min'].set(p_parts[0])
+                                self.pedal_vars[i]['max'].set(p_parts[1])
+                                self.pedal_vars[i]['dz_start'].set(p_parts[2])
+                                self.pedal_vars[i]['dz_end'].set(p_parts[3])
+                                self.pedal_vars[i]['smoothing'].set(int(p_parts[4]))
+                                self.pedal_vars[i]['invert'].set(p_parts[5] == '1')
                 except ValueError:
                     pass
             elif msg == "SAVED":
