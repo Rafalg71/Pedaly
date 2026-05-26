@@ -19,12 +19,12 @@ except ImportError:
 class ConfiguratorApp(ROOT_CLASS):
     def __init__(self):
         if THEME:
-            super().__init__(themename=THEME, title="Konfigurator Pedałów SimRacing")
+            super().__init__(themename=THEME, title="Tester Shiftera / Button Box")
         else:
             super().__init__()
-            self.title("Konfigurator Pedałów SimRacing")
+            self.title("Tester Shiftera / Button Box")
 
-        self.geometry("950x750")
+        self.geometry("600x400")
 
         self.serial_port = None
         self.is_connected = False
@@ -32,7 +32,6 @@ class ConfiguratorApp(ROOT_CLASS):
         self.lock = threading.Lock()
 
         # UI State
-        self.pedal_vars = []
         self.button_vars = [] # List of IntVars for buttons (0/1)
 
         self.create_ui()
@@ -62,116 +61,22 @@ class ConfiguratorApp(ROOT_CLASS):
         self.lbl_status = ttk.Label(conn_frame, text="Rozłączono", font=('Helvetica', 10, 'bold'), foreground="red")
         self.lbl_status.pack(side='right', padx=20)
 
-        # --- Pedals Frame ---
-        main_frame = ttk.Labelframe(self, text="Kalibracja Pedałów", padding=15)
-        main_frame.pack(fill='x', padx=20, pady=10)
-
-        pedal_names = ["Gaz (Throttle)", "Hamulec (Brake)", "Sprzęgło (Clutch)"]
-
-        for idx, name in enumerate(pedal_names):
-            row_frame = ttk.Frame(main_frame, padding=5)
-            row_frame.pack(fill='x', pady=5)
-
-            # Variables
-            raw_var = tk.IntVar(value=0)
-            min_var = tk.StringVar(value="0")
-            max_var = tk.StringVar(value="4095")
-            dz_start_var = tk.StringVar(value="0")
-            dz_end_var = tk.StringVar(value="0")
-            smoothing_var = tk.IntVar(value=8)
-            invert_var = tk.BooleanVar(value=False)
-
-            self.pedal_vars.append({
-                "raw": raw_var,
-                "min": min_var,
-                "max": max_var,
-                "dz_start": dz_start_var,
-                "dz_end": dz_end_var,
-                "smoothing": smoothing_var,
-                "invert": invert_var,
-                "name": name,
-                "idx": idx
-            })
-
-            # Name & Current Value
-            info_frame = ttk.Frame(row_frame, width=200)
-            info_frame.pack(side='left', padx=(0, 20))
-            ttk.Label(info_frame, text=name, font=('Helvetica', 12, 'bold')).pack(anchor='w')
-            val_lbl = ttk.Label(info_frame, textvariable=raw_var, font=('Consolas', 14), foreground="#00bc8c" if THEME else "black")
-            val_lbl.pack(anchor='w')
-
-            # Controls
-            ctrl_frame = ttk.Frame(row_frame)
-            ctrl_frame.pack(side='left', fill='x', expand=True)
-
-            # Progress Bar
-            pb = ttk.Progressbar(ctrl_frame, orient='horizontal', mode='determinate', maximum=4095, variable=raw_var, style='success.Striped.Horizontal.TProgressbar' if THEME else None)
-            pb.pack(fill='x', pady=(0, 10))
-
-            # Settings Grid
-            settings_grid = ttk.Frame(ctrl_frame)
-            settings_grid.pack(fill='x')
-
-            # Min/Max/Deadzone fields... (Same as before)
-            ttk.Label(settings_grid, text="Min:").grid(row=0, column=0, padx=5, sticky='e')
-            ttk.Entry(settings_grid, textvariable=min_var, width=8).grid(row=0, column=1, padx=2)
-            ttk.Button(settings_grid, text="Ustaw", command=lambda i=idx: self.set_current_as_min(i), style='secondary.Outline.TButton' if THEME else None, width=6).grid(row=0, column=2, padx=5)
-
-            ttk.Label(settings_grid, text="Max:").grid(row=0, column=3, padx=(20, 5), sticky='e')
-            ttk.Entry(settings_grid, textvariable=max_var, width=8).grid(row=0, column=4, padx=2)
-            ttk.Button(settings_grid, text="Ustaw", command=lambda i=idx: self.set_current_as_max(i), style='secondary.Outline.TButton' if THEME else None, width=6).grid(row=0, column=5, padx=5)
-
-            ttk.Label(settings_grid, text="Martwa strefa Start (%):").grid(row=0, column=6, padx=(20, 5), sticky='e')
-            ttk.Spinbox(settings_grid, from_=0, to=50, textvariable=dz_start_var, width=4).grid(row=0, column=7, padx=2)
-            ttk.Label(settings_grid, text="Koniec (%):").grid(row=0, column=8, padx=5, sticky='e')
-            ttk.Spinbox(settings_grid, from_=0, to=50, textvariable=dz_end_var, width=4).grid(row=0, column=9, padx=2)
-
-            ttk.Label(settings_grid, text="Wygładzanie:").grid(row=1, column=0, padx=5, pady=5, sticky='e')
-            ttk.Spinbox(settings_grid, from_=1, to=100, textvariable=smoothing_var, width=4).grid(row=1, column=1, padx=2, pady=5)
-
-            ttk.Checkbutton(settings_grid, text="Odwróć (Invert)", variable=invert_var, style='round-toggle' if THEME else None).grid(row=1, column=3, columnspan=3, padx=20, pady=5, sticky='w')
-
-            ttk.Separator(main_frame, orient='horizontal').pack(fill='x', pady=5)
 
         # --- Buttons Frame (Shifter) ---
         btns_frame = ttk.Labelframe(self, text="Przyciski / Shifter (GPIO 4-11)", padding=15)
-        btns_frame.pack(fill='x', padx=20, pady=10)
-
-        # Grid of indicators
-        # We'll use Checkbuttons in "Toolbutton" style or just disabled buttons that change style?
-        # Or simple Labels with background colors.
+        btns_frame.pack(fill='both', expand=True, padx=20, pady=10)
 
         btn_grid = ttk.Frame(btns_frame)
-        btn_grid.pack(anchor='center')
+        btn_grid.pack(anchor='center', expand=True)
 
         self.btn_widgets = []
         for i in range(8):
-            # var = tk.IntVar() # Not strictly needed if we update style directly, but good for tracking
-            # self.button_vars.append(var)
-
-            # Create a label that looks like a circle or box
-            # Using Checkbutton with bootstyle "round-toggle" might look good if enabled?
-            # Let's stick to simple Labels for clarity.
-
-            lbl = ttk.Label(btn_grid, text=f"{i+1}", width=4, anchor='center', font=('Helvetica', 12, 'bold'), relief="raised", borderwidth=1)
-            lbl.grid(row=0, column=i, padx=10, pady=5)
+            lbl = ttk.Label(btn_grid, text=f"{i+1}", width=4, anchor='center', font=('Helvetica', 16, 'bold'), relief="raised", borderwidth=2)
+            lbl.grid(row=0, column=i, padx=10, pady=10)
             self.btn_widgets.append(lbl)
 
-            ttk.Label(btn_grid, text=f"GPIO {i+4}", font=('Arial', 8)).grid(row=1, column=i, padx=5)
+            ttk.Label(btn_grid, text=f"GPIO {i+4}", font=('Arial', 10)).grid(row=1, column=i, padx=5)
 
-
-        # --- Footer ---
-        footer = ttk.Frame(self, padding=15)
-        footer.pack(fill='x', side='bottom')
-
-        ttk.Button(footer, text="📥 Odczytaj Ustawienia", command=self.send_get_config, style='info.TButton' if THEME else None).pack(side='left', padx=10)
-        save_btn = ttk.Button(footer, text="💾 Zapisz Kalibrację w Urządzeniu", command=self.save_config, style='success.TButton' if THEME else None)
-        save_btn.pack(side='right', padx=10)
-
-        self.lbl_save_status = ttk.Label(footer, text="", font=('Helvetica', 10, 'italic'), foreground="#00bc8c")
-        self.lbl_save_status.pack(side='right', padx=20)
-
-    # ... (Refresh/Connect/Disconnect methods same as before)
     def refresh_ports(self):
         ports = sorted([p.device for p in serial.tools.list_ports.comports()])
         self.cbo_ports['values'] = ports
@@ -189,7 +94,6 @@ class ConfiguratorApp(ROOT_CLASS):
                 self.is_connected = True
                 self.btn_connect.config(text="Rozłącz", style='danger.TButton' if THEME else None)
                 self.lbl_status.config(text="Połączono", foreground="#00bc8c" if THEME else "green")
-                self.send_get_config()
             except Exception as e:
                 messagebox.showerror("Błąd Połączenia", str(e))
         else:
@@ -234,57 +138,6 @@ class ConfiguratorApp(ROOT_CLASS):
             except Exception:
                 self.disconnect()
 
-    def send_get_config(self):
-        self.send_command("GET_CONFIG")
-
-    def save_config(self):
-        # ... (Validation logic same as before) ...
-        for p in self.pedal_vars:
-            try:
-                mn = int(p['min'].get())
-                mx = int(p['max'].get())
-                dzs = int(p['dz_start'].get())
-                dze = int(p['dz_end'].get())
-                sm = p['smoothing'].get()
-                if mn == mx:
-                    messagebox.showerror("Błąd Walidacji", f"Pedał {p['name']}: Min nie może być równe Max.")
-                    return
-                if dzs < 0 or dzs > 100 or dze < 0 or dze > 100:
-                     messagebox.showerror("Błąd Walidacji", f"Pedał {p['name']}: Martwa strefa musi być 0-100%.")
-                     return
-                if dzs + dze >= 100:
-                     messagebox.showerror("Błąd Walidacji", f"Pedał {p['name']}: Suma stref nie może przekraczać 100%.")
-                     return
-                if sm < 1 or sm > 100:
-                     messagebox.showerror("Błąd Walidacji", f"Pedał {p['name']}: Wygładzanie musi być od 1 do 100.")
-                     return
-            except ValueError:
-                messagebox.showerror("Błąd Walidacji", f"Nieprawidłowy format liczby dla {p['name']}.")
-                return
-
-        for p in self.pedal_vars:
-            idx = p['idx']
-            mn = p['min'].get()
-            mx = p['max'].get()
-            dzs = p['dz_start'].get()
-            dze = p['dz_end'].get()
-            sm = p['smoothing'].get()
-            inv = 1 if p['invert'].get() else 0
-            self.send_command(f"SET {idx} {mn} {mx} {dzs} {dze} {sm} {inv}")
-            time.sleep(0.05)
-
-        self.send_command("SAVE")
-        self.lbl_save_status.config(text="Zapisywanie...")
-        self.after(2000, lambda: self.lbl_save_status.config(text=""))
-
-    def set_current_as_min(self, idx):
-        val = self.pedal_vars[idx]['raw'].get()
-        self.pedal_vars[idx]['min'].set(str(val))
-
-    def set_current_as_max(self, idx):
-        val = self.pedal_vars[idx]['raw'].get()
-        self.pedal_vars[idx]['max'].set(str(val))
-
     def update_buttons_ui(self, buttons_byte):
         for i in range(8):
             is_pressed = (buttons_byte >> i) & 1
@@ -296,40 +149,13 @@ class ConfiguratorApp(ROOT_CLASS):
     def process_queue(self):
         while not self.msg_queue.empty():
             msg = self.msg_queue.get()
-            if msg.startswith("RAW:"):
-                # RAW:x,y,z,buttons
+            if msg.startswith("BTN:"):
+                # BTN:buttons
                 try:
-                    parts = msg[4:].split(',')
-                    if len(parts) >= 3:
-                        for i in range(3):
-                            self.pedal_vars[i]['raw'].set(int(parts[i]))
-                    if len(parts) >= 4:
-                        buttons = int(parts[3])
-                        self.update_buttons_ui(buttons)
+                    buttons = int(msg[4:])
+                    self.update_buttons_ui(buttons)
                 except ValueError:
                     pass
-            elif msg.startswith("CONF:"):
-                try:
-                    parts = msg[5:].split(',')
-                    if len(parts) == 3:
-                        for i in range(3):
-                            p_parts = parts[i].split(':')
-                            if len(p_parts) == 4:
-                                self.pedal_vars[i]['min'].set(p_parts[0])
-                                self.pedal_vars[i]['max'].set(p_parts[1])
-                                self.pedal_vars[i]['dz_start'].set(p_parts[2])
-                                self.pedal_vars[i]['dz_end'].set(p_parts[3])
-                            elif len(p_parts) == 6:
-                                self.pedal_vars[i]['min'].set(p_parts[0])
-                                self.pedal_vars[i]['max'].set(p_parts[1])
-                                self.pedal_vars[i]['dz_start'].set(p_parts[2])
-                                self.pedal_vars[i]['dz_end'].set(p_parts[3])
-                                self.pedal_vars[i]['smoothing'].set(int(p_parts[4]))
-                                self.pedal_vars[i]['invert'].set(p_parts[5] == '1')
-                except ValueError:
-                    pass
-            elif msg == "SAVED":
-                self.lbl_save_status.config(text="Zapisano Pomyślnie ✓")
 
         self.after(50, self.process_queue)
 
